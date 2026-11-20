@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Indexer {
 
-    // declare servo motor and indexer
+    // Declare servo motor and indexer
     final Servo servoTest;
     Indexer indexer = new Indexer(hardwareMap);
 

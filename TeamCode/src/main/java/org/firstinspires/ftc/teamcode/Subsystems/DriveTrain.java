@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 public class DriveTrain {
-
-    private DcMotor m_frontLeft;
-    private DcMotor m_frontRight;
     private DcMotor m_backLeft;
     private DcMotor m_backRight;
     private IMU m_imu;
@@ -16,19 +13,6 @@ public class DriveTrain {
 
 
     public DriveTrain(HardwareMap hardwareMap) {
-
-        // TODO change this so that the drivetrain uses two motors instead of four
-        //frontLeft
-        m_frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        m_frontLeft.setDirection(DcMotor.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
-        m_frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        //frontRight
-        m_frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        m_frontRight.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
-        m_frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //backLeft
         m_backLeft = hardwareMap.get(DcMotor.class, "backLeft");

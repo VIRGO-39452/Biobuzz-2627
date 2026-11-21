@@ -24,8 +24,8 @@ public class Intake {
      */
     public Intake(HardwareMap hardwareMap) {
         // initialize the hardware maps
-        m_left = hardwareMap.get(CRServo.class, LEFT_INTAKE);
-        m_right = hardwareMap.get(CRServo.class, RIGHT_INTAKE);
+        m_left = hardwareMap.tryGet(CRServo.class, LEFT_INTAKE);
+        m_right = hardwareMap.tryGet(CRServo.class, RIGHT_INTAKE);
         m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_INTAKE);
 
         m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -39,8 +39,8 @@ public class Intake {
     public void runIntake(double power) {
         // TODO verify directions
         this.power = power;
-        m_left.setPower(-1 * power);
-        m_right.setPower(power);
+        if (m_left != null) m_left.setPower(-1 * power);
+        if (m_right != null) m_right.setPower(power);
         m_yellowjacket.setPower(power);
     }
 
@@ -50,10 +50,11 @@ public class Intake {
      */
     public void stopIntake() {
         double stopPower = 0.0;
-        m_left.setPower(stopPower);
-        m_right.setPower(stopPower);
+        if (m_left != null) m_left.setPower(stopPower);
+        if (m_right != null) m_right.setPower(stopPower);
         m_yellowjacket.setPower(stopPower);
     }
+
 
     /**
      * logging purposes
@@ -61,8 +62,8 @@ public class Intake {
      */
     public IntakeLog logging() {
         return new IntakeLog(
-                m_left.getPower() != 0,
-                m_right.getPower() != 0,
+                m_left != null && m_left.getPower() != 0,
+                m_right != null && m_right.getPower() != 0,
                 m_yellowjacket.getPower() != 0,
                 this.power
         );

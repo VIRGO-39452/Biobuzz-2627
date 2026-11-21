@@ -15,6 +15,6 @@ public class Constants {
     public static final String SERVO_INDEXER = "servoIndexer";
 
     // Drivetrain
-    public static final String LEFT_WHEEL = "backWheel";
-    public static final String RIGHT_WHEEL = "frontWheel";
+    public static final String LEFT_WHEEL = "leftWheel";
+    public static final String RIGHT_WHEEL = "rightWheel";
 }

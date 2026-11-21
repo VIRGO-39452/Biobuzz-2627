@@ -21,16 +21,11 @@ public class DriveTrain {
         m_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //backRight
+        // right wheel
         m_right = hardwareMap.get(DcMotor.class, RIGHT_WHEEL);
         m_right.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
         m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-
-    public void drive(double power) {
-        m_left.setPower(power);
-        m_right.setPower(power);
     }
 
     public void arcadeDrive(double forward, double turn) {
@@ -54,15 +49,15 @@ public class DriveTrain {
         m_right.setPower(0);
     }
 
-    // Returns position of bot
     public DriveTrainLog logging() {
+        double leftPower = m_left.getPower(); //assigns the left motor's power (-1.0 to 1.0) to a double leftPower
+        double rightPower = m_right.getPower();//assigns the right motor's power (-1.0 to 1.0) to a double rightPower
+
         return new DriveTrainLog(
-                m_left.getPower(),
-                m_right.getPower(),
-                m_right.getPower() != 0,
-                m_left.getPowerFloat()
+                leftPower,
+                rightPower,
+                rightPower != 0,   //yes or no is the right wheel powered
+                leftPower != 0     //yes or no is the left wheel powered
         );
     }
 }
-
-// All coded by Shubham, trust...

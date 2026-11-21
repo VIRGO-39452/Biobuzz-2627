@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@TeleOp(name = "My First OpMode")
-public class MyFirstOpMode extends LinearOpMode {
+@TeleOp(name = "Drive TeleOp")
+public class TeleOpMode extends LinearOpMode {
 
     private Robot robot;
 
@@ -20,8 +20,8 @@ public class MyFirstOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            double forward = -gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
+            double forward = -gamepad1.left_stick_y; //up and down for forwards and backwards
+            double turn = gamepad1.right_stick_x; //left and right for turning
 
             if (Math.abs(forward) < 0.1) forward = 0;
             if (Math.abs(turn) < 0.1) turn = 0;
@@ -34,5 +34,6 @@ public class MyFirstOpMode extends LinearOpMode {
 
 
         }
+        robot.drive.stop();
     }
 }

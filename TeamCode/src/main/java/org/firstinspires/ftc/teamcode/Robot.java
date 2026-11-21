@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
 public class Robot {
 
-    DriveTrain drive;
+    public DriveTrain drive;
     Intake intake;
     Indexer indexer;
     Shooter shooter;

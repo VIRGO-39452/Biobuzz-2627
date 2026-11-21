@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 
+import java.lang.Math;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -32,14 +33,20 @@ public class DriveTrain {
         m_right.setPower(power);
     }
 
-    public void turnRight(double power) {
-        m_left.setPower(power);
-        m_right.setPower(-1 * power);
-    }
+    public void arcadeDrive(double forward, double turn) {
+        double leftPower = forward + turn;
+        double rightPower = forward - turn;
 
-    public void turnLeft(double power) {
-        m_left.setPower(-1 * power);
-        m_right.setPower(power);
+        double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+
+        if (max > 1.0) {
+            leftPower /= max;
+            rightPower /= max;
+        }
+
+        m_left.setPower(leftPower);
+        m_right.setPower(rightPower);
+
     }
 
     public void stop() {
@@ -57,3 +64,5 @@ public class DriveTrain {
         );
     }
 }
+
+// All coded by Shubham, trust...

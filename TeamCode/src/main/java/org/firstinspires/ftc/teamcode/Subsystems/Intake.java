@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-//this is a test to see if my github functionality works
     private final CRServo m_left;
     private final CRServo m_right;
     private final DcMotor m_yellowjacket;

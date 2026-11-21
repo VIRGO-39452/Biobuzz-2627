@@ -1,57 +1,59 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
+import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
 public class DriveTrain {
-    private DcMotor m_backLeft;
-    private DcMotor m_backRight;
-    private IMU m_imu;
-
-
+    private DcMotor m_left;
+    private DcMotor m_right;
 
     public DriveTrain(HardwareMap hardwareMap) {
 
-        //backLeft
-        m_backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        m_backLeft.setDirection(DcMotor.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
-        m_backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        // left wheel
+        m_left = hardwareMap.get(DcMotor.class, LEFT_WHEEL);
+        m_left.setDirection(DcMotor.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
+        m_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //backRight
-        m_backRight = hardwareMap.get(DcMotor.class, "backRight");
-        m_backRight.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
-        m_backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        //depending on if we want to use the encoder or not - if we happen to not use it and the cable is unplugged, issues arise
-        m_imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
-        );
-                m_imu.initialize(parameters);
-
-
+        m_right = hardwareMap.get(DcMotor.class, RIGHT_WHEEL);
+        m_right.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
+        m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void drive()
-    {
+    public void drive(double power) {
+        m_left.setPower(power);
+        m_right.setPower(power);
+    }
 
+    public void turnRight(double power) {
+        m_left.setPower(power);
+        m_right.setPower(-1 * power);
+    }
+
+    public void turnLeft(double power) {
+        m_left.setPower(-1 * power);
+        m_right.setPower(power);
     }
 
     public void stop() {
-
+        m_left.setPower(0);
+        m_right.setPower(0);
     }
 
     // Returns position of bot
-    public double getHeading() {
-        return 0; // Change return statement later
+    public DriveTrainLog logging() {
+        return new DriveTrainLog(
+                m_left.getPower(),
+                m_right.getPower(),
+                m_right.getPower() != 0,
+                m_left.getPowerFloat()
+        );
     }
-
-
-
 }

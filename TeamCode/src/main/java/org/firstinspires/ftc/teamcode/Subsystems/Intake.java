@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_INTAKE;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Logging.IntakeLog;
@@ -29,6 +30,7 @@ public class Intake {
         m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_INTAKE);
 
         m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD); // TODO verify direction
         m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 

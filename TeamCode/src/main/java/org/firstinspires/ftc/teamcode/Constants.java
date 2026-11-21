@@ -4,10 +4,15 @@ package org.firstinspires.ftc.teamcode;
 
 public class Constants {
     // Intake
-    public static final String LEFT_INTAKE = "left_intake";
-    public static final String RIGHT_INTAKE = "right_intake";
-    public static final String YELLOW_JACKET_INTAKE = "yellow_jacket_intake";
+    public static final String LEFT_INTAKE = "leftIntake";
+    public static final String RIGHT_INTAKE = "rightIntake";
+    public static final String YELLOW_JACKET_INTAKE = "yellowJacketIntake";
 
     // Shooter
-    public static final String YELLOW_JACKET_SHOOTER = "yellow_jacket_shooter";
+    public static final String YELLOW_JACKET_SHOOTER = "yellowJacketShooter";
+
+    // Indexer
+    public static final String SERVO_INDEXER = "servoIndexer";
+
+    // Drivetrain
 }

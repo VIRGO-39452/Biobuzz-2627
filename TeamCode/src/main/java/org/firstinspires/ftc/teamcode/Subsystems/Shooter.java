@@ -5,34 +5,10 @@ import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
+
 public class Shooter {
     private final DcMotor m_yellowjacket;
-
-    public static class ShooterLogs {
-        private final double power;
-        private final boolean on;
-
-        public ShooterLogs(double power, boolean on) {
-            this.power = power;
-            this.on = on;
-        }
-
-        /**
-         * gets the power of the shooter
-         * @return - double power of the shooter
-         */
-        public double getPower() {
-            return power;
-        }
-
-        /**
-         * sees if shooter is on
-         * @return - true if it is, false if it isnt
-         */
-        public boolean isOn() {
-            return on;
-        }
-    }
 
     /**
      * make a new shooter subsystem
@@ -66,9 +42,9 @@ public class Shooter {
      *
      * @return a ShooterLogs (double power, boolean on) object containing the shooter's power and whether it is on
      */
-    public ShooterLogs logs() {
+    public ShooterLog logging() {
         double power = m_yellowjacket.getPower();
-        return new ShooterLogs(
+        return new ShooterLog(
                 power,
                 power != 0
         );

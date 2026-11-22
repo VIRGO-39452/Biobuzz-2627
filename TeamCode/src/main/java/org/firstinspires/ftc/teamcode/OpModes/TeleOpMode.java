@@ -10,16 +10,6 @@ import org.firstinspires.ftc.teamcode.Utils;
 public class TeleOpMode extends OpMode {
 
     private Robot robot;
-
-    // keys
-    private double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
-    private double driveTurn = gamepad1.right_stick_x; // left and right for turning
-    private boolean intakeIsReversed = gamepad2.left_bumper;
-    private float intakeTrigger = gamepad2.left_trigger;
-    private boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-    private double shooterIndexerPower = 0.5;
-    private boolean shooterIndexerReverse = gamepad2.right_bumper;
-
     private boolean indexerFeeding = false;
 
     @Override
@@ -31,6 +21,15 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void loop() {
+        // button presses
+        double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
+        double driveTurn = gamepad1.right_stick_x; // left and right for turning
+        boolean intakeIsReversed = gamepad2.left_bumper;
+        float intakeTrigger = gamepad2.left_trigger;
+        boolean shooterIndexerKey = gamepad2.a; // cross on PS5
+        double shooterIndexerPower = 0.5;
+        boolean shooterIndexerReverse = gamepad2.right_bumper;
+
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;
         if (Math.abs(driveTurn) < 0.1) driveTurn = 0;
@@ -61,7 +60,6 @@ public class TeleOpMode extends OpMode {
 
             double realPower = robot.shooter.logging().getPower();
             double targetRPM = Utils.calculateTargetRPM(realPower);
-            // Remember to also fix Shooter.logging() so getSpeed() is ticks/sec (or convert rad/s -> RPM)
             double actualRPM = Utils.calculateActualRPM(robot.shooter.logging().getSpeed());
 
             indexerFeeding = Utils.isReadyToFeed(targetRPM, actualRPM, indexerFeeding);

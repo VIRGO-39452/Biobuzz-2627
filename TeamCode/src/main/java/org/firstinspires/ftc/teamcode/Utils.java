@@ -5,6 +5,8 @@ public class Utils {
     private static final double SHOOTER_MAX_RPM = 312.0;
     private static final double SHOOTER_TICKS_PER_REV = 537.7;
     private static final double SHOOTER_RPM_TOLERANCE = 10.0;
+    private static final double MIN_FEED_SPEED_RATIO = 0.85;
+    private static final double FEED_HYSTERESIS_RPM = 8.0;
 
     /**
      * Calculates the estimated target RPM from motor power.
@@ -35,5 +37,30 @@ public class Utils {
      */
     public static boolean isAtSpeed(double targetRPM, double actualRPM) {
         return Math.abs(targetRPM - actualRPM) <= SHOOTER_RPM_TOLERANCE;
+    }
+
+    /**
+     * Checks whether the shooter is spinning fast enough in the commanded direction
+     * to feed/launch, with hysteresis to avoid rapid toggling near the threshold.
+     */
+    public static boolean isReadyToFeed(
+            double targetRPM,
+            double actualRPM,
+            boolean currentlyFeeding
+    ) {
+        if (Math.abs(targetRPM) < 1e-6) {
+            return false;
+        }
+
+        // Support both forward (+) and reverse (-) shooter commands
+        double signedMinRPM = targetRPM * MIN_FEED_SPEED_RATIO;
+        double signedStopRPM = (targetRPM * MIN_FEED_SPEED_RATIO)
+                - (Math.signum(targetRPM) * FEED_HYSTERESIS_RPM);
+
+        if (targetRPM > 0) {
+            return currentlyFeeding ? (actualRPM >= signedStopRPM) : (actualRPM >= signedMinRPM);
+        } else {
+            return currentlyFeeding ? (actualRPM <= signedStopRPM) : (actualRPM <= signedMinRPM);
+        }
     }
 }

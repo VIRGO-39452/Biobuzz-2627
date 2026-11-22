@@ -49,7 +49,7 @@ public class Shooter {
         return new ShooterLog(
                 power,
                 Math.abs(power) > 0.001,
-                m_yellowjacket.getVelocity(AngleUnit.RADIANS)
+                m_yellowjacket.getVelocity()
         );
     }
 }

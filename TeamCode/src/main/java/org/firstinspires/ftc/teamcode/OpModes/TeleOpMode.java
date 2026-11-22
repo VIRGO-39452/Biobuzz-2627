@@ -11,6 +11,17 @@ public class TeleOpMode extends OpMode {
 
     private Robot robot;
 
+    // keys
+    private double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
+    private double driveTurn = gamepad1.right_stick_x; // left and right for turning
+    private boolean intakeIsReversed = gamepad2.left_bumper;
+    private float intakeTrigger = gamepad2.left_trigger;
+    private boolean shooterIndexerKey = gamepad2.a; // cross on PS5
+    private double shooterIndexerPower = 0.5;
+    private boolean shooterIndexerReverse = gamepad2.right_bumper;
+
+    private boolean indexerFeeding = false;
+
     @Override
     public void init() {
         robot = new Robot(hardwareMap);
@@ -21,24 +32,19 @@ public class TeleOpMode extends OpMode {
     @Override
     public void loop() {
         // DriveTrain
-        double forward = -gamepad1.left_stick_y; // up and down for forwards and backwards
-        double turn = gamepad1.right_stick_x; // left and right for turning
+        if (Math.abs(driveForward) < 0.1) driveForward = 0;
+        if (Math.abs(driveTurn) < 0.1) driveTurn = 0;
 
-        if (Math.abs(forward) < 0.1) forward = 0;
-        if (Math.abs(turn) < 0.1) turn = 0;
+        robot.drive.arcadeDrive(driveForward, driveTurn);
 
-        robot.drive.arcadeDrive(forward, turn);
-
-        telemetry.addData("Forward: ", forward);
-        telemetry.addData("Turn: ", turn);
+        telemetry.addData("Forward: ", driveForward);
+        telemetry.addData("Turn: ", driveTurn);
 
         // Intake
-        boolean isReversed = gamepad2.left_bumper;
-        float intakeTrigger = gamepad2.left_trigger;
         float deadzone = 0.05f;
 
         if (intakeTrigger > deadzone) { // if the trigger amt is more than deadzone
-            if (isReversed) { // if reversed...
+            if (intakeIsReversed) { // if reversed...
                 robot.intake.runIntake(intakeTrigger);   // reverse
             } else { // what else can it be?
                 robot.intake.runIntake(-intakeTrigger);  // normal
@@ -48,10 +54,6 @@ public class TeleOpMode extends OpMode {
         }
 
         // Shooter + Indexer
-        boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-        double shooterIndexerPower = 0.5;
-        boolean shooterIndexerReverse = gamepad2.right_bumper;
-
         if (shooterIndexerReverse) shooterIndexerPower *= -1;
 
         if (shooterIndexerKey) {
@@ -59,27 +61,29 @@ public class TeleOpMode extends OpMode {
 
             double realPower = robot.shooter.logging().getPower();
             double targetRPM = Utils.calculateTargetRPM(realPower);
+            // Remember to also fix Shooter.logging() so getSpeed() is ticks/sec (or convert rad/s -> RPM)
             double actualRPM = Utils.calculateActualRPM(robot.shooter.logging().getSpeed());
-            boolean atSpeed = Utils.isAtSpeed(targetRPM, actualRPM);
+
+            indexerFeeding = Utils.isReadyToFeed(targetRPM, actualRPM, indexerFeeding);
 
             telemetry.addData("Shooter Power:", realPower);
             telemetry.addData("Reversed?:", realPower < 0);
             telemetry.addData("Target RPM:", targetRPM);
             telemetry.addData("Actual RPM:", actualRPM);
             telemetry.addData("RPM Error:", targetRPM - actualRPM);
-            telemetry.addData("At Speed:", atSpeed);
+            telemetry.addData("Ready to Feed:", indexerFeeding);
 
-            if (atSpeed) {
+            if (indexerFeeding) {
                 robot.indexer.startIndexer(shooterIndexerPower);
 
                 double indexerPower = robot.indexer.logging().getPower();
-
                 telemetry.addData("Indexer Power:", indexerPower);
                 telemetry.addData("Indexer Reversed?:", indexerPower < 0);
             } else {
                 robot.indexer.stop();
             }
         } else {
+            indexerFeeding = false;
             robot.shooter.stopShooter();
             robot.indexer.stop();
         }

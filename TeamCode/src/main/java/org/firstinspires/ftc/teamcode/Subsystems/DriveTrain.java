@@ -27,6 +27,7 @@ public class DriveTrain {
         m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);//make it runwithencoder if works
     }
+    //check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {
         double leftPower = forward + turn;
         double rightPower = forward - turn;

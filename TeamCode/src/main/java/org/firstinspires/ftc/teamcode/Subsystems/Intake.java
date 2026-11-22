@@ -64,9 +64,9 @@ public class Intake {
      */
     public IntakeLog logging() {
         return new IntakeLog(
-                m_left.getPower() != 0,
-                m_right.getPower() != 0,
-                m_yellowjacket.getPower() != 0,
+                Math.abs(m_left.getPower()) > 0.001,
+                Math.abs(m_right.getPower()) > 0.001,
+                Math.abs(m_yellowjacket.getPower()) > 0.001,
                 this.power
         );
     }

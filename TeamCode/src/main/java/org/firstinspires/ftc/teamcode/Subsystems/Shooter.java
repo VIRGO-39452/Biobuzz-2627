@@ -48,7 +48,7 @@ public class Shooter {
         double power = m_yellowjacket.getPower();
         return new ShooterLog(
                 power,
-                power != 0
+                Math.abs(power) > 0.001
         );
     }
 }

@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
 public class DriveTrain {
-    private DcMotor m_left;
-    private DcMotor m_right;
+    private final DcMotor m_left;
+    private final DcMotor m_right;
 
     public DriveTrain(HardwareMap hardwareMap) {
 

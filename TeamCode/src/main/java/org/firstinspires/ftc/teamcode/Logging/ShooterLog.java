@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.Logging;
 public class ShooterLog {
     private final double power;
     private final boolean on;
+    private final double speed;
 
-    public ShooterLog(double power, boolean on) {
+    public ShooterLog(double power, boolean on, double speed) {
         this.power = power;
         this.on = on;
+        this.speed = speed;
     }
 
     /**
@@ -23,5 +25,13 @@ public class ShooterLog {
      */
     public boolean isOn() {
         return on;
+    }
+
+    /**
+     * gets speed of shooter
+     * @return - double speed
+     */
+    public double getSpeed() {
+        return speed;
     }
 }

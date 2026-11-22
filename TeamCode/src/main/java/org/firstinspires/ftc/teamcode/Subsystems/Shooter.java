@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
 public class Shooter {
-    private final DcMotor m_yellowjacket;
+    private final DcMotorEx m_yellowjacket;
 
     /**
      * make a new shooter subsystem
@@ -17,10 +17,10 @@ public class Shooter {
      * @param hardwareMap - hardware map
      */
     public Shooter(HardwareMap hardwareMap) {
-        m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_SHOOTER);
-        m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD); // TODO verify direction
-        m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
+        m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
+        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -48,7 +48,8 @@ public class Shooter {
         double power = m_yellowjacket.getPower();
         return new ShooterLog(
                 power,
-                Math.abs(power) > 0.001
+                Math.abs(power) > 0.001,
+                m_yellowjacket.getVelocity(AngleUnit.RADIANS)
         );
     }
 }

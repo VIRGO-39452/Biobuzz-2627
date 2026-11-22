@@ -20,7 +20,7 @@ public class IndexerTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            boolean key = gamepad2.x;
+            boolean key = gamepad2.a; // cross on ps5
             double power = 0.5;
             boolean reverse = gamepad2.right_bumper;
             if (reverse) power *= -1;

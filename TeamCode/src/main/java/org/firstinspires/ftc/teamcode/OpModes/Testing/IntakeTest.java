@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 public class IntakeTest extends LinearOpMode {
     private Robot robot;
 
+    @Override
     public void runOpMode() throws InterruptedException {
         robot = new Robot(hardwareMap);
 
@@ -21,7 +22,7 @@ public class IntakeTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             double power = gamepad2.left_trigger;
-            boolean reverse = gamepad2.right_bumper;
+            boolean reverse = gamepad2.left_bumper;
 
             if (Math.abs(power) < 0.1) power = 0;
             if (reverse) power *= -1;

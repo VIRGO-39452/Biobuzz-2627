@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class ShooterTest extends LinearOpMode {
     private Robot robot;
 
+    @Override
     public void runOpMode() throws InterruptedException {
         robot = new Robot(hardwareMap);
 
@@ -19,7 +20,7 @@ public class ShooterTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            boolean key = gamepad2.x;
+            boolean key = gamepad2.a; // cross on ps5
             double power = 0.5;
             boolean reverse = gamepad2.right_bumper;
             if (reverse) power *= -1;

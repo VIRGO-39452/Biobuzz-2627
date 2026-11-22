@@ -29,7 +29,7 @@ public class TeleOpMode extends OpMode {
         boolean shooterIndexerKey = gamepad2.a; // cross on PS5
         double shooterTargetRPM = 156.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
-        double indexerPower = 0.5;
+        double indexerPower = 0.2;
 
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;

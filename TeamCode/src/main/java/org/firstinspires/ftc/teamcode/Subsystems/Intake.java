@@ -36,7 +36,7 @@ public class Intake {
 
     /**
      * run the intake
-     * left and right servo goes full power
+//     * left and right servo goes full power
      * -1.0 to 1.0, positive pulls in and negative pushes out to get rid of jams
      */
     public void runIntake(double power) {

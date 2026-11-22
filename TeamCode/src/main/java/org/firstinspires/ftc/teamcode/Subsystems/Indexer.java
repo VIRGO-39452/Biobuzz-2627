@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Logging.IndexerLog;
-import org.opencv.core.Mat;
-
 /**
  * Represents the indexer subsystem of the robot.
  *

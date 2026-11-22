@@ -32,15 +32,25 @@ public class TeleOpMode extends LinearOpMode {
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
             telemetry.update();
-            //Intake
-            if (gamepad2.x) {
-                robot.intake.runIntake(1.0);        // full on
-            } else if (gamepad2.b) {
-                robot.intake.runIntake(-1.0);       // full reverse, for clearing jams
-            } else {
-                robot.intake.stopIntake();          // off
-            }
+            // Intake
+            boolean isReversed = gamepad2.left_bumper;
+            float intakeTrigger = gamepad2.left_trigger;
+            float deadzone = 0.05f;
 
+            if (intakeTrigger > deadzone) //if the trigger amt is more than deadzone
+            {
+                if (isReversed) //if reversed...
+                {
+                    robot.intake.runIntake(intakeTrigger);   // reverse
+                } else //what else can it be?
+                {
+                    robot.intake.runIntake(-intakeTrigger);  // normal
+                }
+            }
+            else // finally if the trigger is not greater than the deadzone we want to inactivate b/c we'd still be feeding some small amount
+                {
+                    robot.intake.stopIntake();
+                }
         }
         robot.drive.stop();
     }

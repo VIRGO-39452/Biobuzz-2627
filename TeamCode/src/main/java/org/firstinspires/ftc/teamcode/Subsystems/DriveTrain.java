@@ -19,15 +19,14 @@ public class DriveTrain {
         m_left = hardwareMap.get(DcMotor.class, LEFT_WHEEL);
         m_left.setDirection(DcMotor.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
         m_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //make it runwithencoder if works
 
         // right wheel
         m_right = hardwareMap.get(DcMotor.class, RIGHT_WHEEL);
         m_right.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
         m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);//make it runwithencoder if works
     }
-
     public void arcadeDrive(double forward, double turn) {
         double leftPower = forward + turn;
         double rightPower = forward - turn;

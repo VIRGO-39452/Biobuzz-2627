@@ -19,7 +19,7 @@ public class Shooter {
     public Shooter(HardwareMap hardwareMap) {
         m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_SHOOTER);
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD); // TODO verify direction
-        m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 

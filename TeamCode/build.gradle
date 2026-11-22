@@ -18,6 +18,13 @@ apply from: '../build.dependencies.gradle'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/main/java', 'src/main/java/2', 'src/main/java/Interface', 'src/main/java/teamcode/Interface', 'src/main/java/org.firstinspires.ftc.teamcode/Interface'
+            }
+        }
+    }
 
     packagingOptions {
         jniLibs.useLegacyPackaging true

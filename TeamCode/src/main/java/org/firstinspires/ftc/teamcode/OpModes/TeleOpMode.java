@@ -19,7 +19,8 @@ public class TeleOpMode extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive())
+        {   //DriveTrain
             double forward = -gamepad1.left_stick_y; //up and down for forwards and backwards
             double turn = gamepad1.right_stick_x; //left and right for turning
 
@@ -31,7 +32,14 @@ public class TeleOpMode extends LinearOpMode {
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
             telemetry.update();
-
+            //Intake
+            if (gamepad2.x) {
+                robot.intake.runIntake(1.0);        // full on
+            } else if (gamepad2.b) {
+                robot.intake.runIntake(-1.0);       // full reverse, for clearing jams
+            } else {
+                robot.intake.stopIntake();          // off
+            }
 
         }
         robot.drive.stop();

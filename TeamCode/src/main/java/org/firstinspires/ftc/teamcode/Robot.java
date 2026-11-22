@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 public class Robot {
 
     public DriveTrain drive;
-    Intake intake;
-    Indexer indexer;
-    Shooter shooter;
+    public Intake intake;
+    public Indexer indexer;
+    public Shooter shooter;
 
     public Robot(HardwareMap hardwareMap) {
         drive = new DriveTrain(hardwareMap);

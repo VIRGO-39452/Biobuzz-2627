@@ -37,6 +37,7 @@ public class Intake {
     /**
      * run the intake
      * left and right servo goes full power
+     * -1.0 to 1.0, positive pulls in and negative pushes out to get rid of jams
      */
     public void runIntake(double power) {
         // TODO verify directions
@@ -51,10 +52,10 @@ public class Intake {
      * sets both right and left servo power to zero
      */
     public void stopIntake() {
-        double stopPower = 0.0;
-        m_left.setPower(stopPower);
-        m_right.setPower(stopPower);
-        m_yellowjacket.setPower(stopPower);
+        this.power = 0.0;
+        m_left.setPower(0.0);
+        m_right.setPower(0.0);
+        m_yellowjacket.setPower(0.0);
     }
 
     /**

@@ -14,7 +14,7 @@ public class IndexerTest extends LinearOpMode {
         robot = new Robot(hardwareMap);
 
         telemetry.addLine("Initialized Indexer");
-        telemetry.addLine("R2 for regular, R1 for reverse");
+        telemetry.addLine("Cross for regular, R1 for reverse");
         telemetry.update();
 
         waitForStart();
@@ -33,8 +33,12 @@ public class IndexerTest extends LinearOpMode {
                 telemetry.addData("Indexer power:", realPower);
                 telemetry.addData("Reversed?:", realPower < 0);
             }
+            else{
+                robot.indexer.stop();
         }
 
+        telemetry.update();
+    }
         robot.indexer.stop();
     }
 }

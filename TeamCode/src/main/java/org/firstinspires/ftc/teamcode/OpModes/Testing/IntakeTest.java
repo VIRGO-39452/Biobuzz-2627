@@ -25,14 +25,15 @@ public class IntakeTest extends LinearOpMode {
             boolean reverse = gamepad2.left_bumper;
 
             if (Math.abs(power) < 0.1) power = 0;
-            if (reverse) power *= -1;
+            if (!reverse) power *= -1;
 
             robot.intake.runIntake(power);
 
             double realPower = robot.intake.logging().getPower();
 
             telemetry.addData("Intake power:", realPower);
-            telemetry.addData("Reversed?:", realPower < 0);
+            telemetry.addData("Reversed?:", realPower > 0);
+            telemetry.update();
         }
 
         robot.intake.stopIntake();

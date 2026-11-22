@@ -14,27 +14,30 @@ public class ShooterTest extends LinearOpMode {
         robot = new Robot(hardwareMap);
 
         telemetry.addLine("Initialized Shooter");
-        telemetry.addLine("L2 for regular, L1 for reverse");
+        telemetry.addLine("Cross for regular, L1 for reverse");
         telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
             boolean key = gamepad2.a; // cross on ps5
-            double power = 0.5;
+            double targetRPM = 156.0;
             boolean reverse = gamepad2.right_bumper;
-            if (reverse) power *= -1;
+            if (reverse) targetRPM *= -1;
 
             if (key) {
-                robot.shooter.runShooter(power);
+                robot.shooter.runShooter(targetRPM);
 
                 double realPower = robot.shooter.logging().getPower();
 
                 telemetry.addData("Shooter power:", realPower);
                 telemetry.addData("Reversed?:", realPower < 0);
+            } else {
+                robot.shooter.stopShooter();
             }
-        }
 
+            telemetry.update();
+        }
         robot.shooter.stopShooter();
     }
 }

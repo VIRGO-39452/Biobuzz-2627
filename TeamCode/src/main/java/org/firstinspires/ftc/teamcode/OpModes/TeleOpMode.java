@@ -27,8 +27,9 @@ public class TeleOpMode extends OpMode {
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-        double shooterIndexerPower = 0.5;
+        double shooterTargetRPM = 156.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
+        double indexerPower = 0.5;
 
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;
@@ -53,30 +54,33 @@ public class TeleOpMode extends OpMode {
         }
 
         // Shooter + Indexer
-        if (shooterIndexerReverse) shooterIndexerPower *= -1;
+        if (shooterIndexerReverse) {
+            robot.shooter.runShooter(-shooterTargetRPM);
+            robot.indexer.startIndexer(-indexerPower);
+            indexerFeeding = false;
 
-        if (shooterIndexerKey) {
-            robot.shooter.runShooter(shooterIndexerPower);
+            telemetry.addData("Shooter/Indexer State:", "Reversing");
+        } else if (shooterIndexerKey) {
+            robot.shooter.runShooter(shooterTargetRPM);
 
             double realPower = robot.shooter.logging().getPower();
-            double targetRPM = Utils.calculateTargetRPM(realPower);
             double actualRPM = Utils.calculateActualRPM(robot.shooter.logging().getSpeed());
 
-            indexerFeeding = Utils.isReadyToFeed(targetRPM, actualRPM, indexerFeeding);
+            indexerFeeding = Utils.isReadyToFeed(shooterTargetRPM, actualRPM, indexerFeeding);
 
             telemetry.addData("Shooter Power:", realPower);
             telemetry.addData("Reversed?:", realPower < 0);
-            telemetry.addData("Target RPM:", targetRPM);
+            telemetry.addData("Target RPM:", shooterTargetRPM);
             telemetry.addData("Actual RPM:", actualRPM);
-            telemetry.addData("RPM Error:", targetRPM - actualRPM);
+            telemetry.addData("RPM Error:", shooterTargetRPM - actualRPM);
             telemetry.addData("Ready to Feed:", indexerFeeding);
 
             if (indexerFeeding) {
-                robot.indexer.startIndexer(shooterIndexerPower);
+                robot.indexer.startIndexer(indexerPower);
 
-                double indexerPower = robot.indexer.logging().getPower();
-                telemetry.addData("Indexer Power:", indexerPower);
-                telemetry.addData("Indexer Reversed?:", indexerPower < 0);
+                double currentIndexerPower = robot.indexer.logging().getPower();
+                telemetry.addData("Indexer Power:", currentIndexerPower);
+                telemetry.addData("Indexer Reversed?:", currentIndexerPower < 0);
             } else {
                 robot.indexer.stop();
             }
@@ -85,6 +89,7 @@ public class TeleOpMode extends OpMode {
             robot.shooter.stopShooter();
             robot.indexer.stop();
         }
+
 
         telemetry.update(); // :D
     }

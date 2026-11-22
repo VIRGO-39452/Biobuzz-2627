@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
 public class Shooter {
     private final DcMotorEx m_yellowjacket;
+    private final double TPR = 537.7;
 
     /**
      * make a new shooter subsystem
@@ -26,10 +27,12 @@ public class Shooter {
     /**
      * runs the shooter
      *
-     * @param power - set the power to run the shooter (negative runs backwards, positive runs forward)
+     * @param targetRPM - set the targetRPM to run the shooter (negative runs backwards, positive runs forward)
      */
-    public void runShooter(double power) {
-        m_yellowjacket.setPower(power);
+
+    public void runShooter(double targetRPM) {
+        double ticksPerSecond = (targetRPM * TPR) / 60.0;
+        m_yellowjacket.setVelocity(ticksPerSecond);
     }
 
     /**

@@ -9,15 +9,16 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
 public class Shooter implements Interface {
-    private final DcMotorEx m_yellowjacket;
 
+    private final DcMotorEx m_yellowjacket;
     private final VoltageSensor m_voltageSensor;
+
+    private final double TPR = 537.7;
 
     /**
      * make a new shooter subsystem
@@ -35,10 +36,11 @@ public class Shooter implements Interface {
     /**
      * runs the shooter
      *
-     * @param targetRPM - set the targetRPM to run the shooter (negative runs backwards, positive runs forward)
+     * @param targetRPM - set the targetRPM to run the shooter
+     *                    (negative runs backwards, positive runs forward)
      */
-
     public void runShooter(double targetRPM) {
+
         if (isStalled()) {
             stopShooter();
             return;
@@ -64,13 +66,27 @@ public class Shooter implements Interface {
         return current > MIN_CURRENT && velocity < MIN_VELOCITY;
     }
 
+    // get current
+    @Override
+    public double getCurrent() {
+        return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
+    }
+
+    // get voltage
+    @Override
+    public double getVoltage() {
+        return m_voltageSensor.getVoltage();
+    }
+
     /**
      * Retrieves the current shooter state for logging.
      *
-     * @return a ShooterLogs (double power, boolean on) object containing the shooter's power and whether it is on
+     * @return a ShooterLog object containing the shooter's power
+     *         and whether it is on
      */
     public ShooterLog logging() {
         double power = m_yellowjacket.getPower();
+
         return new ShooterLog(
                 power,
                 Math.abs(power) > 0.001,

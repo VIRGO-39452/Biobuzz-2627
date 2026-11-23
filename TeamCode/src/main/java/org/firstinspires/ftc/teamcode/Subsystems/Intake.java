@@ -1,20 +1,14 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_INTAKE;
-import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
-import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_INTAKE;
-import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_INTAKE;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.IntakeLog;
 
 public class Intake {
@@ -29,8 +23,6 @@ public class Intake {
         m_right = hardwareMap.get(CRServo.class, RIGHT_INTAKE);
         m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_INTAKE);
 
-        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
-
         m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -39,11 +31,6 @@ public class Intake {
     }
 
     public void runIntake(double power) {
-
-        if (isStalled()) {
-            stopIntake();
-            return;
-        }
 
         this.power = power;
 

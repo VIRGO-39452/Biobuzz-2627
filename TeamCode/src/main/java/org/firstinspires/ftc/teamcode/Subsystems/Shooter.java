@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
+import static org.firstinspires.ftc.teamcode.Constants.MAX_CURRENT;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -91,10 +92,11 @@ public class Shooter implements Interface {
         double velocity = Math.abs(m_yellowjacket.getVelocity());
         double current = getCurrent();
 
-        if (current > MIN_CURRENT && velocity < MIN_VELOCITY) {
+        // have yet to clarify the values for min/max voltage and min/max current
+
+        if (current < MAX_CURRENT && velocity < MIN_VELOCITY) {
             return stallTimer.seconds() >= STALL_TIME_SECONDS;
-        }
-        else {
+        } else {
             stallTimer.reset();
             return false;
         }

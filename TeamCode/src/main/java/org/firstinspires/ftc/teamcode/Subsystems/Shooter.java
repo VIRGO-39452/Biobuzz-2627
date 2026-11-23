@@ -94,7 +94,7 @@ public class Shooter implements Interface {
 
         // have yet to clarify the values for min/max voltage and min/max current
 
-        if (current < MAX_CURRENT && velocity < MIN_VELOCITY) {
+        if (current < MIN_CURRENT && velocity < MIN_VELOCITY) {
             return stallTimer.seconds() >= STALL_TIME_SECONDS;
         } else {
             stallTimer.reset();
@@ -120,7 +120,7 @@ public class Shooter implements Interface {
         double current = getCurrent();
         double velocity = Math.abs(m_yellowjacket.getVelocity());
 
-        boolean brownOutCheck = current > MIN_CURRENT && voltage < MIN_VOLTAGE && velocity < MIN_VELOCITY;
+        boolean brownOutCheck = current > MAX_CURRENT && voltage < MIN_VOLTAGE && velocity < MIN_VELOCITY;
 
         if (brownOutCheck) {
             return brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS;

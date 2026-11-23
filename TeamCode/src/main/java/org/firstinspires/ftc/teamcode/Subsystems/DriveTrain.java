@@ -5,27 +5,27 @@ import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 
 
 import java.lang.Math;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
 public class DriveTrain {
-    private final DcMotor m_left;
-    private final DcMotor m_right;
+    private final DcMotorEx m_left;
+    private final DcMotorEx m_right;
 
     public DriveTrain(HardwareMap hardwareMap) {
 
         // left wheel
-        m_left = hardwareMap.get(DcMotor.class, LEFT_WHEEL);
-        m_left.setDirection(DcMotor.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
-        m_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //make it runwithencoder if works
+        m_left = hardwareMap.get(DcMotorEx.class, LEFT_WHEEL);
+        m_left.setDirection(DcMotorEx.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
+        m_left.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        m_left.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //make it runwithencoder if works
 
         // right wheel
-        m_right = hardwareMap.get(DcMotor.class, RIGHT_WHEEL);
-        m_right.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
-        m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //make it runwithencoder if works
+        m_right = hardwareMap.get(DcMotorEx.class, RIGHT_WHEEL);
+        m_right.setDirection(DcMotorEx.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
+        m_right.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        m_right.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //make it runwithencoder if works
     }
     //check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {

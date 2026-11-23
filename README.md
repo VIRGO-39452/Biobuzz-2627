@@ -350,7 +350,7 @@ voltage was not updated on driver station if OpMode did not send any telemetry.
 * Changes the way that camera controls behave for a SwitchableCamera. Now, each method (such as getExposure, getMinExposure, getMaxExposure, setExposure for ExposureControl) acts on the currently active camera.
 * Adds support for the REV USB PS4 Compatible Gamepad (REV-31-2983)
 * Adds ConceptAprilTagMultiPortal OpMode
-* Adds support for OctoQuad Quadrature Encoder & Pulse Width org.firstinspires.ftc.teamcode.Interface Module
+* Adds support for OctoQuad Quadrature Encoder & Pulse Width org.firstinspires.ftc.teamcode.ElectricalSafeguards Module
 * Adds the ExportAprilTagLibraryToBlocks annotation that indicates that a static method that returns an AprilTagLibrary is exported to the Blocks programming environment. The corresponding block will appear in the Blocks toolbox along with the built-in tag libraries.
 * Adds Blocks OpMode ConceptAprilTagOptimizeExposure.
 * Adds support for the SparkFun Optical Tracking Odometry sensor.
@@ -1779,6 +1779,6 @@ Changes include:
  * A new LinearOpMode class is introduced.
    - Teams can use the LinearOpMode mode to create a linear (not event driven) program model.
    - Teams can use blocking statements like Thread.sleep() within a linear OpMode.
- * The API for the Legacy Module and Core Device org.firstinspires.ftc.teamcode.Interface Module have been updated.
+ * The API for the Legacy Module and Core Device org.firstinspires.ftc.teamcode.ElectricalSafeguards Module have been updated.
    - Support for encoders with the Legacy Module is now working.
  * The hardware loop has been updated for better performance.

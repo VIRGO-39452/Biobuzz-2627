@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.Constants.RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_INTAKE;
 
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -15,19 +15,17 @@ public class Intake {
 
     private final CRServo m_left;
     private final CRServo m_right;
-    private final DcMotor m_yellowjacket;
+    private final DcMotorEx m_yellowjacket;
     private double power;
 
     public Intake(HardwareMap hardwareMap) {
         m_left = hardwareMap.get(CRServo.class, LEFT_INTAKE);
         m_right = hardwareMap.get(CRServo.class, RIGHT_INTAKE);
-        m_yellowjacket = hardwareMap.get(DcMotor.class, YELLOW_JACKET_INTAKE);
+        m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_INTAKE);
 
-        m_yellowjacket.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
+        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // might have to change it to RUN_USING_ENCODER if using encoders
+        m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); // might have to change it to RUN_USING_ENCODER if using encoders
     }
 
     public void runIntake(double power) {

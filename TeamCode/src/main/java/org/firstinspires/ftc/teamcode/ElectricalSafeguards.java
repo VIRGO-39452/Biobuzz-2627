@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public interface Interface {
+public interface ElectricalSafeguards {
     boolean isStalled();
     boolean isBrownout();
     double getCurrent();

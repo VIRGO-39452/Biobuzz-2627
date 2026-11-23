@@ -17,10 +17,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.Interface;
+import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
-public class Shooter implements Interface {
+public class Shooter implements ElectricalSafeguards {
 
     private final DcMotorEx m_yellowjacket;
     private final VoltageSensor m_voltageSensor;

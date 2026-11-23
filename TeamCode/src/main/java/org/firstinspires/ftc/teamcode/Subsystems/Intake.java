@@ -42,9 +42,9 @@ public class Intake {
     public void runIntake(double power) {
         // TODO verify directions
         this.power = power;
-        m_left.setPower(-1 * power);
-        m_right.setPower(power);
-        m_yellowjacket.setPower(power);
+        m_left.setPower(power);
+        m_right.setPower(-power);
+        m_yellowjacket.setPower(-power);
     }
 
     /**

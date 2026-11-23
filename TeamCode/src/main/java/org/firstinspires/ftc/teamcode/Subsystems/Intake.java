@@ -37,7 +37,7 @@ public class Intake implements Interface {
 
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        m_yellowjacket.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // had to change it to RUN_USING_ENCODER for velocity control
+        m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // might have to change it to RUN_USING_ENCODER for velocity control
     }
 
     public void runIntake(double power) {
@@ -62,13 +62,13 @@ public class Intake implements Interface {
         m_yellowjacket.setPower(0.0);
     }
 
+    // these won't work because there is no encoder
     @Override
     public boolean isStalled() {
         double velocity = Math.abs(m_yellowjacket.getVelocity());
         double current = m_yellowjacket.getCurrent(CurrentUnit.AMPS);
 
-        return current > MIN_CURRENT
-                && velocity < MIN_VELOCITY;
+        return current > MIN_CURRENT && velocity < MIN_VELOCITY;
     }
 
     @Override

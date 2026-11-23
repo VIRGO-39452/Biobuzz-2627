@@ -6,8 +6,15 @@ public class Constants {
 
     // All subsystems
     public static final String VOLTAGE_SENSOR = "voltageSensor";
-    public static final double MIN_CURRENT = 5;
-    public static final double MIN_VELOCITY = ticksPerSecond;
+    public static final double MIN_CURRENT = 0.25;
+    public static final double MAX_CURRENT = 9.2;
+    public static final double MIN_VELOCITY = 537.7;
+    public static final double MIN_VOLTAGE = 5;
+    public static final double STALL_TIME_SECONDS = 0.45;
+
+    public static final double BROWNOUT_TIME_SECONDS = 0.3;
+    public static final double BROWNOUT_SHUTOFF_SECONDS = 1.0;
+
 
     // Intake
     public static final String LEFT_INTAKE = "leftIntake";

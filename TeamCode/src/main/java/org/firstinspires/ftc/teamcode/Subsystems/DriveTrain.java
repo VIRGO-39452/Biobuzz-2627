@@ -59,6 +59,7 @@ public class DriveTrain implements Interface {
         m_right.setPower(0);
     }
 
+    // if it has an encoder this should work
     // check if m_left or m_right is stalled or not
     @Override
     public boolean isStalled() {

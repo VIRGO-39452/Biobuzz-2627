@@ -144,6 +144,7 @@ public class Shooter implements Interface {
                 power,
                 Math.abs(power) > 0.001,
                 m_yellowjacket.getVelocity()
+
         );
     }
 }

@@ -96,7 +96,7 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void stop() {
-        robot.drive.stop();
+        robot.drive.driveStop();
         robot.shooter.stopShooter();
         robot.indexer.stop();
         robot.intake.stopIntake();

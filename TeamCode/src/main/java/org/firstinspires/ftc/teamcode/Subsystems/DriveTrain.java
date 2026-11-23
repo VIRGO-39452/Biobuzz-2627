@@ -38,18 +38,21 @@ public class DriveTrain implements ElectricalSafeguards {
 
         // left wheel
         m_left = hardwareMap.get(DcMotorEx.class, LEFT_WHEEL);
-        m_left.setDirection(DcMotorEx.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
+        m_left.setDirection(DcMotorEx.Direction.REVERSE); // this is reversed since the motor would be mounted the other way around?
         m_left.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         m_left.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         // right wheel
         m_right = hardwareMap.get(DcMotorEx.class, RIGHT_WHEEL);
-        m_right.setDirection(DcMotorEx.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
+        m_right.setDirection(DcMotorEx.Direction.FORWARD); // this is forward since the motor would be mounted the correct way around
         m_right.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         m_right.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
-    //check documentation for how this drive works
+    // check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {
+        if (isStalled()) {
+            driveStop();
+        }
 
         double leftPower = forward - turn;
         double rightPower = forward + turn;
@@ -61,16 +64,13 @@ public class DriveTrain implements ElectricalSafeguards {
             rightPower /= max;
         }
 
+        if (isBrownout()) {
+            leftPower *= 0.5;
+            rightPower *= 0.5;
+        }
+
         m_left.setPower(leftPower);
         m_right.setPower(rightPower);
-
-        if (isStalled()) {
-            driveStop();
-        }
-
-        if (isBrownout()) {
-            driveStop();
-        }
 
     }
 

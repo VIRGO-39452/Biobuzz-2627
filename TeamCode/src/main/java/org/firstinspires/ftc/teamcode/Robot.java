@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
 public class Robot {
-
     public DriveTrain drive;
     public Intake intake;
     public Indexer indexer;

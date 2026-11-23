@@ -1,29 +1,19 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
-import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
-import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
-import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
+
 
 import java.lang.Math;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
-public class DriveTrain implements Interface {
+public class DriveTrain {
     private final DcMotor m_left;
     private final DcMotor m_right;
-    private final VoltageSensor m_voltageSensor;
 
     public DriveTrain(HardwareMap hardwareMap) {
-
-        // to determine current voltage
-        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
 
         // left wheel
         m_left = hardwareMap.get(DcMotor.class, LEFT_WHEEL);
@@ -59,36 +49,7 @@ public class DriveTrain implements Interface {
         m_right.setPower(0);
     }
 
-    // if it has an encoder this should work
-    // check if m_left or m_right is stalled or not
-    @Override
-    public boolean isStalled() {
-        double leftVelocity = Math.abs(m_left.getVelocity());
-        double rightVelocity = Math.abs(m_right.getVelocity());
-
-        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
-        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
-
-        boolean leftStalled = leftCurrent > MIN_CURRENT && leftVelocity < MIN_VELOCITY;
-        boolean rightStalled = rightCurrent > MIN_CURRENT && rightVelocity < MIN_VELOCITY;
-
-        return leftStalled || rightStalled;
-    }
-
-    // get current for both motors
-    @Override
-    public double getCurrent() {
-        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
-        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
-
-        return leftCurrent + rightCurrent;
-    }
-
-    // get voltage
-    @Override
-    public double getVoltage() {
-        return m_voltageSensor.getVoltage();
-    }
+    // TODO verify if encoders are used in this subsystem to add stalling and brownout detection
 
     public DriveTrainLog logging() {
         double leftPower = m_left.getPower(); //assigns the left motor's power (-1.0 to 1.0) to a double leftPower

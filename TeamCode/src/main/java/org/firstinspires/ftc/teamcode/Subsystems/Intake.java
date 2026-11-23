@@ -17,13 +17,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.IntakeLog;
 
-public class Intake implements Interface {
+public class Intake {
 
     private final CRServo m_left;
     private final CRServo m_right;
     private final DcMotor m_yellowjacket;
-    private final VoltageSensor m_voltageSensor;
-
     private double power;
 
     public Intake(HardwareMap hardwareMap) {
@@ -37,7 +35,7 @@ public class Intake implements Interface {
 
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // might have to change it to RUN_USING_ENCODER for velocity control
+        m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // might have to change it to RUN_USING_ENCODER if using encoders
     }
 
     public void runIntake(double power) {
@@ -62,24 +60,7 @@ public class Intake implements Interface {
         m_yellowjacket.setPower(0.0);
     }
 
-    // these won't work because there is no encoder
-    @Override
-    public boolean isStalled() {
-        double velocity = Math.abs(m_yellowjacket.getVelocity());
-        double current = m_yellowjacket.getCurrent(CurrentUnit.AMPS);
-
-        return current > MIN_CURRENT && velocity < MIN_VELOCITY;
-    }
-
-    @Override
-    public double getCurrent() {
-        return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
-    }
-
-    @Override
-    public double getVoltage() {
-        return m_voltageSensor.getVoltage();
-    }
+    // TODO verify if encoders are used in this subsystem to add stalling and brownout detection
 
     public IntakeLog logging() {
         return new IntakeLog(

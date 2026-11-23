@@ -60,6 +60,8 @@ public class Indexer {
         m_servo.setPower(0.0);
     }
 
+    // TODO verify if encoders are used in this subsystem to add stalling and brownout detection
+
     /**
      * Retrieves the current state of the indexer for logging.
      *

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
+import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
+import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 
@@ -9,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
@@ -32,7 +35,7 @@ public class DriveTrain implements Interface {
         m_right = hardwareMap.get(DcMotor.class, RIGHT_WHEEL);
         m_right.setDirection(DcMotor.Direction.FORWARD); //this is forward since the motor would be mounted the correct way around
         m_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);//make it runwithencoder if works
+        m_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //make it runwithencoder if works
     }
     //check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {
@@ -56,9 +59,39 @@ public class DriveTrain implements Interface {
         m_right.setPower(0);
     }
 
+    // check if m_left or m_right is stalled or not
+    @Override
+    public boolean isStalled() {
+        double leftVelocity = Math.abs(m_left.getVelocity());
+        double rightVelocity = Math.abs(m_right.getVelocity());
+
+        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
+        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
+
+        boolean leftStalled = leftCurrent > MIN_CURRENT && leftVelocity < MIN_VELOCITY;
+        boolean rightStalled = rightCurrent > MIN_CURRENT && rightVelocity < MIN_VELOCITY;
+
+        return leftStalled || rightStalled;
+    }
+
+    // get current for both motors
+    @Override
+    public double getCurrent() {
+        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
+        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
+
+        return leftCurrent + rightCurrent;
+    }
+
+    // get voltage
+    @Override
+    public double getVoltage() {
+        return m_voltageSensor.getVoltage();
+    }
+
     public DriveTrainLog logging() {
         double leftPower = m_left.getPower(); //assigns the left motor's power (-1.0 to 1.0) to a double leftPower
-        double rightPower = m_right.getPower();//assigns the right motor's power (-1.0 to 1.0) to a double rightPower
+        double rightPower = m_right.getPower(); //assigns the right motor's power (-1.0 to 1.0) to a double rightPower
 
         return new DriveTrainLog(
                 leftPower,

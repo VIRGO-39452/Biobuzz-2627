@@ -2,18 +2,25 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
+import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 
 import java.lang.Math;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.teamcode.Interface;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
-public class DriveTrain {
+public class DriveTrain implements Interface {
     private final DcMotor m_left;
     private final DcMotor m_right;
+    private final VoltageSensor m_voltageSensor;
 
     public DriveTrain(HardwareMap hardwareMap) {
+
+        // to determine current voltage
+        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
 
         // left wheel
         m_left = hardwareMap.get(DcMotor.class, LEFT_WHEEL);

@@ -11,6 +11,8 @@ public class Constants {
     public static final double MAX_CURRENT = 4.0;
     public static final double MIN_VELOCITY = 25.0;
     public static final double MIN_VOLTAGE = 8.5;
+
+    // These are probably going to stay
     public static final double STALL_TIME_SECONDS = 0.45;
     public static final double BROWNOUT_TIME_SECONDS = 0.3;
     public static final double BROWNOUT_SHUTOFF_SECONDS = 1.0;

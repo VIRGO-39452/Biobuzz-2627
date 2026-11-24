@@ -51,7 +51,7 @@ public class Autonomous extends OpMode {
     }
 
     public double findHypotenuse() {
-        double z = Math.sqrt(Math.pow(x, 2) + 576);
+        double z = Math.sqrt(Math.pow(x, 2) + Math.pow(24, 2));
         return z;
     }
 }

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 // names of constants go here , import them in other files
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class Constants {
 
     // All subsystems
@@ -31,4 +33,5 @@ public class Constants {
     // Drivetrain
     public static final String LEFT_WHEEL = "leftWheel";
     public static final String RIGHT_WHEEL = "rightWheel";
+    public static final double WHEEL_DIAMETER = 96.0; // millimeters
 }

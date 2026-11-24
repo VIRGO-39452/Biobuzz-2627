@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
@@ -85,6 +86,13 @@ public class DriveTrain implements ElectricalSafeguards {
     public void driveStop() {
         m_left.setPower(0);
         m_right.setPower(0);
+    }
+
+    /**
+     * move forward
+     * @param distanceUnit how far bot needs to go
+     */
+    public void moveForward(DistanceUnit distanceUnit) {
     }
 
     @Override

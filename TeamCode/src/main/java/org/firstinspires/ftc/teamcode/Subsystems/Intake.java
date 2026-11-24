@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Logging.IntakeLog;
 
 public class Intake {
-
     private final CRServo m_left;
     private final CRServo m_right;
     private final DcMotorEx m_yellowjacket;

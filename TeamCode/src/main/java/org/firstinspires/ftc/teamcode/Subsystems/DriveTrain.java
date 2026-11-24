@@ -52,6 +52,7 @@ public class DriveTrain implements ElectricalSafeguards {
     public void arcadeDrive(double forward, double turn) {
         if (isStalled()) {
             driveStop();
+            return;
         }
 
         double leftPower = forward - turn;
@@ -65,8 +66,15 @@ public class DriveTrain implements ElectricalSafeguards {
         }
 
         if (isBrownout()) {
-            leftPower *= 0.5;
-            rightPower *= 0.5;
+            double elapsed = brownOutTimer.seconds();
+
+            if (elapsed >= BROWNOUT_SHUTOFF_SECONDS) {
+                driveStop();
+                return;
+            } else {
+                leftPower *= 0.5;
+                rightPower *= 0.5;
+            }
         }
 
         m_left.setPower(leftPower);
@@ -83,10 +91,12 @@ public class DriveTrain implements ElectricalSafeguards {
     public boolean isStalled() {
         double leftVelocity = Math.abs(m_left.getVelocity());
         double rightVelocity = Math.abs(m_right.getVelocity());
-        double current = getCurrent();
 
-        boolean leftCheck = current < MIN_CURRENT && leftVelocity < MIN_VELOCITY;
-        boolean rightCheck = current < MIN_CURRENT && rightVelocity < MIN_VELOCITY;
+        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
+        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
+
+        boolean leftCheck = leftCurrent > MIN_CURRENT && leftVelocity < MIN_VELOCITY;
+        boolean rightCheck = rightCurrent > MIN_CURRENT && rightVelocity < MIN_VELOCITY;
 
         if (leftCheck && rightCheck) {
             return stallTimer.seconds() >= STALL_TIME_SECONDS;

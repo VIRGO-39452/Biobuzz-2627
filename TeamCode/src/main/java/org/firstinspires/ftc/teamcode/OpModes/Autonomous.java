@@ -13,12 +13,15 @@ public class Autonomous extends OpMode {
     private double y = 24.0;
     private double targetAngle = 0.0;
 
+    private double hypotenuse = 0.0; // the amount of inches the
+
     @Override
     public void init() {
         robot = new Robot(hardwareMap);
         telemetry.addLine("Autonomous initialized");
 
         targetAngle = findTargetAngle();
+        hypotenuse = findHypotenuse();
 
         telemetry.update();
 
@@ -46,5 +49,10 @@ public class Autonomous extends OpMode {
         double a = Math.toDegrees(Math.atan2(this.x, this.y));
         double theta = 180.0 - a;
         return theta;
+    }
+
+    public double findHypotenuse() {
+        double y = Math.sqrt(Math.pow(x, 2) + 576);
+        return y;
     }
 }

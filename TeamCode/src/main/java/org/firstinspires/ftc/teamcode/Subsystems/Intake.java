@@ -22,7 +22,7 @@ public class Intake {
         m_right = hardwareMap.get(CRServo.class, RIGHT_INTAKE);
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_INTAKE);
 
-        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         m_yellowjacket.setDirection(DcMotorSimple.Direction.FORWARD);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }

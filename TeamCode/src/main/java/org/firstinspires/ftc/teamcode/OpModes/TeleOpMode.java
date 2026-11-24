@@ -27,9 +27,9 @@ public class TeleOpMode extends OpMode {
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-        double shooterTargetRPM = 156.0;
+        double shooterTargetRPM = 100.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
-        double indexerPower = 0.2;
+        double indexerPower = 0.5;
 
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;
@@ -55,8 +55,8 @@ public class TeleOpMode extends OpMode {
 
         // Shooter + Indexer
         if (shooterIndexerReverse) {
-            robot.shooter.runShooter(-shooterTargetRPM);
-            robot.indexer.startIndexer(-indexerPower);
+            robot.shooter.runShooter(shooterTargetRPM);
+            robot.indexer.startIndexer(indexerPower);
             indexerFeeding = false;
 
             telemetry.addData("Shooter/Indexer State:", "Reversing");

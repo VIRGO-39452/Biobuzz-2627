@@ -27,7 +27,7 @@ public class TeleOpMode extends OpMode {
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-        double shooterTargetRPM = 100.0;
+        double shooterTargetRPM = 138.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
         double indexerPower = 0.5;
 

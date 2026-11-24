@@ -28,6 +28,9 @@ public class Autonomous extends OpMode {
         * In order for auto mode to work, we need methods to turn the bot CCW and
         * CW and make the bot go forward using DriverTrain class (maybe)
         * */
-
+        /*I agree - Aadithya, making methods to turn the robot a certain number
+        * of degrees or to an angle would be helpful, or even a method to set
+        * angles and other variables based on measurements we calculate at the arena would be nice
+         */
     }
 }

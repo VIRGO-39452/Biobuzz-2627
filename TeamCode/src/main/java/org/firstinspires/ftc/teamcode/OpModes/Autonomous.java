@@ -12,7 +12,6 @@ public class Autonomous extends OpMode {
     private double x; // TODO find out the distance from loading zone
     private double y = 24.0;
     private double targetAngle = 0.0;
-
     private double hypotenuse = 0.0; // the amount of inches the
 
     @Override
@@ -52,7 +51,7 @@ public class Autonomous extends OpMode {
     }
 
     public double findHypotenuse() {
-        double y = Math.sqrt(Math.pow(x, 2) + 576);
-        return y;
+        double z = Math.sqrt(Math.pow(x, 2) + 576);
+        return z;
     }
 }

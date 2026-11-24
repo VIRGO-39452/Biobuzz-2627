@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
@@ -29,6 +30,8 @@ public class DriveTrain implements ElectricalSafeguards {
     private final DcMotorEx m_right;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
+    private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
+    private boolean inBrownoutState = false;
     private final VoltageSensor m_voltageSensor;
 
     public DriveTrain(HardwareMap hardwareMap) {
@@ -66,20 +69,17 @@ public class DriveTrain implements ElectricalSafeguards {
         }
 
         if (isBrownout()) {
-            double elapsed = brownOutTimer.seconds();
-
-            if (elapsed >= BROWNOUT_SHUTOFF_SECONDS) {
+            if (brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS) {
                 driveStop();
                 return;
-            } else {
-                leftPower *= 0.5;
-                rightPower *= 0.5;
             }
+
+            leftPower *= 0.5;
+            rightPower *= 0.5;
         }
 
         m_left.setPower(leftPower);
         m_right.setPower(rightPower);
-
     }
 
     public void driveStop() {
@@ -125,20 +125,24 @@ public class DriveTrain implements ElectricalSafeguards {
     public boolean isBrownout() {
         double voltage = getVoltage();
 
-        double leftCurrent = m_left.getCurrent(CurrentUnit.AMPS);
-        double rightCurrent = m_right.getCurrent(CurrentUnit.AMPS);
-
-        double leftVelocity = Math.abs(m_left.getVelocity());
-        double rightVelocity = Math.abs(m_right.getVelocity());
-
-        boolean leftBrownOut = leftCurrent > MAX_CURRENT && voltage < MIN_VOLTAGE && leftVelocity < MIN_VELOCITY;
-        boolean rightBrownOut = rightCurrent > MAX_CURRENT && voltage < MIN_VOLTAGE && rightVelocity < MIN_VELOCITY;
-
-        if (leftBrownOut || rightBrownOut) {
-            return brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS;
-        } else {
-            brownOutTimer.reset();
+        if (!inBrownoutState) {
+            if (voltage < MIN_VOLTAGE) {
+                if (brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS) {
+                    inBrownoutState = true;
+                    brownoutDurationTimer.reset();
+                    return true;
+                }
+            } else {
+                brownOutTimer.reset();
+            }
             return false;
+        } else {
+            if (voltage >= BROWNOUT_RECOVERY_VOLTAGE) {
+                inBrownoutState = false;
+                brownOutTimer.reset();
+                return false;
+            }
+            return true;
         }
     }
 

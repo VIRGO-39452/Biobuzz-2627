@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
@@ -26,6 +27,8 @@ public class Shooter implements ElectricalSafeguards {
     private final VoltageSensor m_voltageSensor;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
+    private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
+    private boolean inBrownoutState = false;
     private final double TPR = 537.7;
 
     /**
@@ -48,26 +51,21 @@ public class Shooter implements ElectricalSafeguards {
      *                    (negative runs backwards, positive runs forward)
      */
     public void runShooter(double targetRPM) {
-
         if (isStalled()) {
             stopShooter();
             return;
         }
 
         if (isBrownout()) {
-            double elapsed = brownOutTimer.seconds();
-
-            if (elapsed >= BROWNOUT_SHUTOFF_SECONDS) {
+            if (brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS) {
                 stopShooter();
                 return;
-            } // Dont know if some of the code below is really needed
-            else {
-                if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
-                    m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                }
-                m_yellowjacket.setPower(Math.copySign(0.5, targetRPM));
-                return;
             }
+
+            double scaledRPM = targetRPM * 0.5;
+            double ticksPerSecond = (scaledRPM * TPR) / 60.0;
+            m_yellowjacket.setVelocity(ticksPerSecond);
+            return;
         }
 
         if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
@@ -117,18 +115,27 @@ public class Shooter implements ElectricalSafeguards {
     @Override
     public boolean isBrownout() {
         double voltage = getVoltage();
-        double current = getCurrent();
-        double velocity = Math.abs(m_yellowjacket.getVelocity());
 
-        boolean brownOutCheck = current > MAX_CURRENT && voltage < MIN_VOLTAGE && velocity < MIN_VELOCITY;
-
-        if (brownOutCheck) {
-            return brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS;
-        } else {
-            brownOutTimer.reset();
+        if (!inBrownoutState) {
+            if (voltage < MIN_VOLTAGE) {
+                if (brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS) {
+                    inBrownoutState = true;
+                    brownoutDurationTimer.reset();
+                    return true;
+                }
+            } else {
+                brownOutTimer.reset();
+            }
             return false;
+        } else {
+            // Stay in brownout until voltage recovers above the recovery threshold
+            if (voltage >= BROWNOUT_RECOVERY_VOLTAGE) {
+                inBrownoutState = false;
+                brownOutTimer.reset();
+                return false;
+            }
+            return true;
         }
-
     }
 
     /**

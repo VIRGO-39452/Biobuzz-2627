@@ -69,6 +69,9 @@ public class Autonomous extends LinearOpMode {
                     break;
                 }
             }
+
+            break;
+
         }
     }
 }

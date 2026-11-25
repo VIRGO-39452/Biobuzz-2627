@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Logging;
 
-import org.opencv.core.Mat;
-
 /**
  * imagines a right triangle ABC with AB being perpendicular to BC
  * outputs an object with the hypotenuse (z), angle ABC (a) and its supplement (theta)
@@ -18,7 +16,7 @@ public class AutoVariables {
     }
 
     private double calcAAngle(double x, double y) {
-        return Math.atan2(x, y);
+        return Math.toDegrees(Math.atan2(x, y));
     }
 
     private double calcZSide(double x, double y) {
@@ -26,7 +24,7 @@ public class AutoVariables {
     }
 
     private double calcThetaAngle(double x, double y) {
-        return (-1 * Math.atan2(x, y)) - 180;
+        return 180 - Math.toDegrees(Math.atan2(x, y));
     }
 
     public double getA() {

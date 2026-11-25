@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Logging.AutoVariables;
 import org.firstinspires.ftc.teamcode.Robot;
 
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Auto 1", group = "Autonomous")
 public class Autonomous extends OpMode {
 
     private final ElapsedTime autoTimer = new ElapsedTime();

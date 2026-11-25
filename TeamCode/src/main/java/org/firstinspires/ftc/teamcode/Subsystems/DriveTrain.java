@@ -135,7 +135,6 @@ public class DriveTrain implements ElectricalSafeguards {
         double turnCircumference = Math.PI * TRACK_WIDTH;
         double wheelDistance = turnCircumference * (angle / 360.0);
 
-        // 2. Convert wheel travel distance to encoder ticks
         double wheelCircumference = Math.PI * (WHEEL_DIAMETER / DistanceUnit.mmPerInch);
         double rotations = wheelDistance / wheelCircumference;
         int targetTicks = (int) Math.round(rotations * 1425.1 * 1);
@@ -144,6 +143,8 @@ public class DriveTrain implements ElectricalSafeguards {
         m_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m_left.setTargetPosition(targetTicks);
         m_right.setTargetPosition(-targetTicks);
+        m_left.setTargetPositionTolerance(15);
+        m_right.setTargetPositionTolerance(15);
 
         m_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -157,7 +158,6 @@ public class DriveTrain implements ElectricalSafeguards {
             }
         }
 
-        // 6. Stop and restore regular TeleOp mode
         driveStop();
         m_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

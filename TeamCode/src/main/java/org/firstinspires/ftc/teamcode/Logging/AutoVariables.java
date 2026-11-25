@@ -4,7 +4,7 @@ import org.opencv.core.Mat;
 
 /**
  * imagines a right triangle ABC with AB being perpendicular to BC
- * outputs an object with the hypotenuse, angle ABC and its supplement
+ * outputs an object with the hypotenuse (z), angle ABC (a) and its supplement (theta)
  */
 public class AutoVariables {
     private final double z;

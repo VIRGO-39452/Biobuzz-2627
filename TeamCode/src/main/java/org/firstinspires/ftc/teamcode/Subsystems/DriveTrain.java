@@ -149,7 +149,7 @@ public class DriveTrain implements ElectricalSafeguards {
         m_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         double turnSpeed = 0.5;
-        while (m_left.isBusy() && m_right.isBusy()) {
+        while (!isMovementFinished()) {
             arcadeDrive(0, turnSpeed);
 
             if (isStalled() || (isBrownout() && brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS)) {
@@ -161,6 +161,10 @@ public class DriveTrain implements ElectricalSafeguards {
         driveStop();
         m_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public boolean isMovementFinished() {
+        return !m_left.isBusy() && !m_right.isBusy();
     }
 
     @Override

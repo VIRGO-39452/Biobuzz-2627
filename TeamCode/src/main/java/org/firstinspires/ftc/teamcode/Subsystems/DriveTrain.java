@@ -10,7 +10,9 @@ import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
+import static org.firstinspires.ftc.teamcode.Constants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
+import static org.firstinspires.ftc.teamcode.Constants.WHEEL_DIAMETER;
 
 
 import java.lang.Math;
@@ -90,9 +92,75 @@ public class DriveTrain implements ElectricalSafeguards {
 
     /**
      * move forward
-     * @param distanceUnit how far bot needs to go
+     * @param distance how far the bot needs to go in inches
      */
-    public void moveForward(DistanceUnit distanceUnit) {
+    public void moveForward(double distance) {
+        double radius = (WHEEL_DIAMETER / DistanceUnit.mmPerInch) / 2;
+        double circumference = 2 * Math.PI * radius;
+        double rotations = distance / circumference;
+        int targetTicks = (int) Math.round(rotations * 1425.1 * 1); // 1425.1 pulse/rev
+
+        // reset motors
+        m_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m_left.setTargetPosition(targetTicks);
+        m_right.setTargetPosition(targetTicks);
+
+        // switch to run to position mode
+        m_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // drive until wheel reaches target position
+        double driveSpeed = 0.6; // TODO adjust speed later
+        while (m_left.isBusy() && m_right.isBusy()) {
+            arcadeDrive(driveSpeed, 0);
+
+            // Exit early if arcadeDrive triggered a stall or brownout shutoff
+            if (isStalled() || (isBrownout() && brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS)) {
+                break;
+            }
+        }
+
+        // stop and restore to regular teleop mode
+        driveStop();
+        m_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    /**
+     * turn angles. positive is clockwise, negative is anticlockwise
+     * @param angle in degrees
+     */
+    public void turn(double angle) {
+        double turnCircumference = Math.PI * TRACK_WIDTH;
+        double wheelDistance = turnCircumference * (angle / 360.0);
+
+        // 2. Convert wheel travel distance to encoder ticks
+        double wheelCircumference = Math.PI * (WHEEL_DIAMETER / DistanceUnit.mmPerInch);
+        double rotations = wheelDistance / wheelCircumference;
+        int targetTicks = (int) Math.round(rotations * 1425.1 * 1);
+
+        m_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m_left.setTargetPosition(targetTicks);
+        m_right.setTargetPosition(-targetTicks);
+
+        m_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        double turnSpeed = 0.5;
+        while (m_left.isBusy() && m_right.isBusy()) {
+            arcadeDrive(0, turnSpeed);
+
+            if (isStalled() || (isBrownout() && brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS)) {
+                break;
+            }
+        }
+
+        // 6. Stop and restore regular TeleOp mode
+        driveStop();
+        m_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override

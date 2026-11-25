@@ -13,6 +13,7 @@ public class Constants {
     public static final double MIN_VELOCITY = 25.0;
     public static final double MIN_VOLTAGE = 8.5;
     public static final double BROWNOUT_RECOVERY_VOLTAGE = MIN_VOLTAGE + 0.5;
+    public static final double TRACK_WIDTH = 15.75; //in inches
 
     public static final double STALL_TIME_SECONDS = 0.45;
     public static final double BROWNOUT_TIME_SECONDS = 0.3;
@@ -33,5 +34,9 @@ public class Constants {
     // Drivetrain
     public static final String LEFT_WHEEL = "leftWheel";
     public static final String RIGHT_WHEEL = "rightWheel";
+
+    /**
+     * diameter of wheel in mm (96 mm)
+     */
     public static final double WHEEL_DIAMETER = 96.0; // millimeters
 }

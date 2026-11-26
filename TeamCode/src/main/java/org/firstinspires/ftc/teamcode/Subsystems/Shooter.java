@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 public class Shooter {
 
     private final DcMotorEx m_yellowjacket;
-    //private final VoltageSensor m_voltageSensor;
+    private final VoltageSensor m_voltageSensor;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
     private final double TPR = 537.7;
@@ -34,7 +34,7 @@ public class Shooter {
      */
     public Shooter(HardwareMap hardwareMap) {
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
-        //m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
+        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
         m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
         m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -48,7 +48,7 @@ public class Shooter {
      */
     public void runShooter(double targetRPM) {
 
-        /*if (isStalled()) {
+        if (isStalled()) {
             stopShooter();
             return;
         }
@@ -86,7 +86,7 @@ public class Shooter {
 
     // check if m_yellowjacket is stalled or not
     // uses timer to prevent motor stopping on start
-    /*@Override
+    @Override
     public boolean isStalled() {
         double velocity = Math.abs(m_yellowjacket.getVelocity());
         double current = getCurrent();
@@ -102,18 +102,18 @@ public class Shooter {
     }*/
 
     // get current
-    //@Override
-    //public double getCurrent() {
-    //    return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
-    //}
+    @Override
+    public double getCurrent() {
+        return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
+    }
 
     // get voltage
-    //@Override
-    //public double getVoltage() {
-    //    return m_voltageSensor.getVoltage();
-    //}
+    @Override
+    public double getVoltage() {
+        return m_voltageSensor.getVoltage();
+    }
 
-    /*@Override
+    @Override
     public boolean isBrownout() {
         double voltage = getVoltage();
         double current = getCurrent();
@@ -128,7 +128,7 @@ public class Shooter {
             return false;
         }
 
-    }*/
+    }
 
     /**
      * Retrieves the current shooter state for logging.

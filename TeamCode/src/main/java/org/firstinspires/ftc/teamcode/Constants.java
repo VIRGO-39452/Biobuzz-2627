@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
 
     // All subsystems
+    public static final String VOLTAGE_SENSOR = "voltageSensor";
     public static final double MIN_CURRENT = 0.25;
     public static final double MAX_CURRENT = 4.0;
     public static final double MIN_VELOCITY = 25.0;

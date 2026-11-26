@@ -62,15 +62,13 @@ public class Autonomous extends LinearOpMode {
                 robot.drive.turn(-(calcForMovement.getTheta()));
 
                 if (robot.drive.isMovementFinished()) {
-                    robot.drive.driveStop();
+                    robot.drive.stop();
 
                     telemetry.addLine("Autonomous session complete");
                     telemetry.update();
                     break;
                 }
             }
-
-            break;
 
         }
     }

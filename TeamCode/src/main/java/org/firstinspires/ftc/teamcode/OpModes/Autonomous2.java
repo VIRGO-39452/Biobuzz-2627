@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-//TODO finish
+//TODO check over with sim
 public class Autonomous2 extends LinearOpMode {
 
     private Robot robot;
@@ -15,9 +15,12 @@ public class Autonomous2 extends LinearOpMode {
     private double x, y;
 
     private enum States2 {
+        BEGIN_DRIVE_1,
         BEGIN_DRIVE_2,
         ROTATE,
-        DRIVE_BACK_2
+        ROTATE_BACK,
+        DRIVE_BACK,
+        DONE
     }
 
     private States2 step2;
@@ -25,7 +28,7 @@ public class Autonomous2 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap);
-        step2 = States2.BEGIN_DRIVE_2;
+        step2 = States2.BEGIN_DRIVE_1;
 
         telemetry.addLine("Autonomous2 initialized");
         telemetry.update();
@@ -37,8 +40,57 @@ public class Autonomous2 extends LinearOpMode {
             x = 9.0;
             y = 7.5;
 
-            if (autoTimer2.seconds() <= 30) {
+            if (step2 == States2.BEGIN_DRIVE_1) {
 
+                robot.drive.moveForward(y);
+
+                if (robot.drive.isMovementFinished()) {
+                    step2 = States2.ROTATE;
+                }
+
+            } else if (step2 == States2.ROTATE) {
+
+                robot.drive.turn(180);
+                robot.drive.turn(-90);
+
+
+                if (robot.drive.isMovementFinished()) {
+                    step2 = States2.BEGIN_DRIVE_2;
+                }
+
+            } else if (step2 == States2.BEGIN_DRIVE_2) {
+
+                robot.drive.moveForward(x);
+
+                if (robot.drive.isMovementFinished()) {
+                    step2 = States2.ROTATE_BACK;
+                }
+
+            } else if (step2 == States2.ROTATE_BACK) {
+
+                robot.drive.turn(-180);
+                robot.drive.turn(90);
+
+
+                if (robot.drive.isMovementFinished()) {
+                    step2 = States2.DRIVE_BACK;
+                }
+
+            } else if (step2 == States2.DRIVE_BACK) {
+
+                robot.drive.moveForward(y);
+
+                if (robot.drive.isMovementFinished()) {
+                    robot.drive.stop();
+                    step2 = States2.DONE;
+                }
+
+            } else if (step2 == States2.DONE) {
+                robot.drive.stop();
+                telemetry.addLine("Autonomous session complete");
+                telemetry.update();
+
+                break;
             }
 
         }

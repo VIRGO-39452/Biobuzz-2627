@@ -29,8 +29,8 @@ public class DriveTrain {
     }
     //check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {
-        double leftPower = forward - turn;
-        double rightPower = forward + turn;
+        double leftPower = forward + turn;
+        double rightPower = forward - turn;
 
         double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
 
@@ -44,7 +44,7 @@ public class DriveTrain {
 
     }
 
-    public void driveStop() {
+    public void stop() {
         m_left.setPower(0);
         m_right.setPower(0);
     }

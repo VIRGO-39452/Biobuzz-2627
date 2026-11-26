@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
-import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
+import static org.firstinspires.ftc.teamcode.Constants.CONTROL_HUB;
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
@@ -35,7 +35,7 @@ public class Shooter implements ElectricalSafeguards {
      */
     public Shooter(HardwareMap hardwareMap) {
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
-        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
+        m_voltageSensor = hardwareMap.get(VoltageSensor.class, CONTROL_HUB);
         m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
         m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

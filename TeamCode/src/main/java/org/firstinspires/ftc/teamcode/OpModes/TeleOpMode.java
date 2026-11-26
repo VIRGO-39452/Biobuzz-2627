@@ -53,8 +53,8 @@ public class TeleOpMode extends OpMode {
 
         // Shooter + Indexer
         if (shooterIndexerReverse) {
-            robot.shooter.runShooter(shooterTargetRPM);
-            robot.indexer.startIndexer(indexerPower);
+            robot.shooter.runShooter(-138.0);              // negative RPM = opposite direction
+            robot.indexer.startIndexer(-indexerPower);    // +0.65 = opposite of feeding
             indexerFeeding = false;
 
             telemetry.addData("Shooter/Indexer State:", "Reversing");
@@ -62,13 +62,11 @@ public class TeleOpMode extends OpMode {
             robot.shooter.runShooter(shooterTargetRPM);
 
             double realPower = robot.shooter.logging().getPower();
-            double actualRPM = Utils.calculateActualRPM(robot.shooter.logging().getSpeed());
-
+            double actualRPM = Math.abs(Utils.calculateActualRPM(robot.shooter.logging().getSpeed())) / 2.0;
             indexerFeeding = Utils.isReadyToFeed(shooterTargetRPM, actualRPM, indexerFeeding);
 
             telemetry.addData("Shooter Power:", realPower);
-            telemetry.addData("Reversed?:", realPower < 0);
-            telemetry.addData("Target RPM:", shooterTargetRPM);
+            telemetry.addData("Reversed (unexpected)?:", realPower > 0);            telemetry.addData("Target RPM:", shooterTargetRPM);
             telemetry.addData("Actual RPM:", actualRPM);
             telemetry.addData("RPM Error:", shooterTargetRPM - actualRPM);
             telemetry.addData("Ready to Feed:", indexerFeeding);
@@ -78,8 +76,7 @@ public class TeleOpMode extends OpMode {
 
                 double currentIndexerPower = robot.indexer.logging().getPower();
                 telemetry.addData("Indexer Power:", currentIndexerPower);
-                telemetry.addData("Indexer Reversed?:", currentIndexerPower < 0);
-            } else {
+                telemetry.addData("Indexer Reversed (unexpected)?:", currentIndexerPower > 0);            } else {
                 robot.indexer.stop();
             }
         } else {

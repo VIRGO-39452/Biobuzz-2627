@@ -26,6 +26,7 @@ public class Shooter implements ElectricalSafeguards {
     private final VoltageSensor m_voltageSensor;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
+    private boolean wasRunning = false;
     private final double TPR = 537.7;
 
     /**
@@ -48,9 +49,14 @@ public class Shooter implements ElectricalSafeguards {
      *                    (negative runs backwards, positive runs forward)
      */
     public void runShooter(double targetRPM) {
+        if (!wasRunning) {
+            stallTimer.reset();
+            brownOutTimer.reset();
+            wasRunning = true;
+        }
 
         if (isStalled()) {
-            stopShooter();
+            m_yellowjacket.setPower(0.0);
             return;
         }
 
@@ -58,10 +64,9 @@ public class Shooter implements ElectricalSafeguards {
             double elapsed = brownOutTimer.seconds();
 
             if (elapsed >= BROWNOUT_SHUTOFF_SECONDS) {
-                stopShooter();
+                m_yellowjacket.setPower(0.0);
                 return;
-            }
-            else {
+            } else {
                 if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
                     m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 }
@@ -78,11 +83,9 @@ public class Shooter implements ElectricalSafeguards {
         m_yellowjacket.setVelocity(-2 * ticksPerSecond);
     }
 
-    /**
-     * stop the shooter
-     */
     public void stopShooter() {
         m_yellowjacket.setPower(0.0);
+        wasRunning = false;
     }
 
     // check if m_yellowjacket is stalled or not

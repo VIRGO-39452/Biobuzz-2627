@@ -4,17 +4,14 @@ import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
-import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
-import static org.firstinspires.ftc.teamcode.Constants.MAX_CURRENT;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;

@@ -4,14 +4,12 @@ import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
-import static org.firstinspires.ftc.teamcode.Constants.MAX_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 import static org.firstinspires.ftc.teamcode.Constants.WHEEL_DIAMETER;
 
 
@@ -20,7 +18,6 @@ import java.lang.Math;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;

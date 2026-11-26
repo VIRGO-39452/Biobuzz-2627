@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
@@ -8,24 +7,24 @@ import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
+import static org.firstinspires.ftc.teamcode.Constants.MAX_CURRENT;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
-public class Shooter implements ElectricalSafeguards {
+public class Shooter {
 
     private final DcMotorEx m_yellowjacket;
-    // private final VoltageSensor m_voltageSensor;
+    //private final VoltageSensor m_voltageSensor;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
-    private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
-    private boolean inBrownoutState = false;
     private final double TPR = 537.7;
 
     /**
@@ -35,9 +34,9 @@ public class Shooter implements ElectricalSafeguards {
      */
     public Shooter(HardwareMap hardwareMap) {
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
-        // m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
+        //m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
         m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
-        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
@@ -48,29 +47,34 @@ public class Shooter implements ElectricalSafeguards {
      *                    (negative runs backwards, positive runs forward)
      */
     public void runShooter(double targetRPM) {
-        if (isStalled()) {
+
+        /*if (isStalled()) {
             stopShooter();
             return;
         }
 
         if (isBrownout()) {
-            if (brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS) {
+            double elapsed = brownOutTimer.seconds();
+
+            if (elapsed >= BROWNOUT_SHUTOFF_SECONDS) {
                 stopShooter();
                 return;
             }
-
-            double scaledRPM = targetRPM * 0.5;
-            double ticksPerSecond = (scaledRPM * TPR) / 60.0;
-            m_yellowjacket.setVelocity(ticksPerSecond);
-            return;
-        }
+            else {
+                if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
+                    m_yellowjacket.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                }
+                m_yellowjacket.setPower(Math.copySign(0.5, targetRPM));
+                return;
+            }
+        }*/
 
         if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
             m_yellowjacket.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         double ticksPerSecond = (targetRPM * TPR) / 60.0;
-        m_yellowjacket.setVelocity(ticksPerSecond);
+        m_yellowjacket.setVelocity(-2 * ticksPerSecond);
     }
 
     /**
@@ -82,59 +86,49 @@ public class Shooter implements ElectricalSafeguards {
 
     // check if m_yellowjacket is stalled or not
     // uses timer to prevent motor stopping on start
-    @Override
+    /*@Override
     public boolean isStalled() {
         double velocity = Math.abs(m_yellowjacket.getVelocity());
         double current = getCurrent();
 
         // have yet to clarify the values for min/max voltage and min/max current
 
-        if (current > MIN_CURRENT && velocity < MIN_VELOCITY) {
+        if (current < MIN_CURRENT && velocity < MIN_VELOCITY) {
             return stallTimer.seconds() >= STALL_TIME_SECONDS;
         } else {
             stallTimer.reset();
             return false;
         }
-    }
+    }*/
 
     // get current
-    @Override
-    public double getCurrent() {
-        return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
-    }
+    //@Override
+    //public double getCurrent() {
+    //    return m_yellowjacket.getCurrent(CurrentUnit.AMPS);
+    //}
 
     // get voltage
-    @Override
-    public double getVoltage() {
-        return 0;
-        //return m_voltageSensor.getVoltage();
-    }
+    //@Override
+    //public double getVoltage() {
+    //    return m_voltageSensor.getVoltage();
+    //}
 
-    @Override
+    /*@Override
     public boolean isBrownout() {
         double voltage = getVoltage();
+        double current = getCurrent();
+        double velocity = Math.abs(m_yellowjacket.getVelocity());
 
-        if (!inBrownoutState) {
-            if (voltage < MIN_VOLTAGE) {
-                if (brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS) {
-                    inBrownoutState = true;
-                    brownoutDurationTimer.reset();
-                    return true;
-                }
-            } else {
-                brownOutTimer.reset();
-            }
-            return false;
+        boolean brownOutCheck = current > MAX_CURRENT && voltage < MIN_VOLTAGE && velocity < MIN_VELOCITY;
+
+        if (brownOutCheck) {
+            return brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS;
         } else {
-            // Stay in brownout until voltage recovers above the recovery threshold
-            if (voltage >= BROWNOUT_RECOVERY_VOLTAGE) {
-                inBrownoutState = false;
-                brownOutTimer.reset();
-                return false;
-            }
-            return true;
+            brownOutTimer.reset();
+            return false;
         }
-    }
+
+    }*/
 
     /**
      * Retrieves the current shooter state for logging.

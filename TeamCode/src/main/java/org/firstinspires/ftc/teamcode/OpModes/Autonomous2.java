@@ -12,7 +12,7 @@ public class Autonomous2 extends LinearOpMode {
 
     private final ElapsedTime autoTimer2 = new ElapsedTime();
 
-    private double x, y;
+    private double x1, x2, y;
 
     private enum States2 {
         BEGIN_DRIVE_1,
@@ -37,8 +37,9 @@ public class Autonomous2 extends LinearOpMode {
         autoTimer2.reset();
 
         while (opModeIsActive()) {
-            x = 9.0;
-            y = 7.5;
+            y = 9.0;
+            x1 = 7.5;
+            x2 = 4.0;
 
             if (step2 == States2.BEGIN_DRIVE_1) {
 
@@ -60,7 +61,7 @@ public class Autonomous2 extends LinearOpMode {
 
             } else if (step2 == States2.BEGIN_DRIVE_2) {
 
-                robot.drive.moveForward(x);
+                robot.drive.moveForward(x2);
 
                 if (robot.drive.isMovementFinished()) {
                     step2 = States2.ROTATE_BACK;
@@ -78,7 +79,7 @@ public class Autonomous2 extends LinearOpMode {
 
             } else if (step2 == States2.DRIVE_BACK) {
 
-                robot.drive.moveForward(y);
+                robot.drive.moveForward(x1);
 
                 if (robot.drive.isMovementFinished()) {
                     robot.drive.stop();

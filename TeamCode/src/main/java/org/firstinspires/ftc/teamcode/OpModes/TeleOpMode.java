@@ -52,7 +52,7 @@ public class TeleOpMode extends OpMode {
         } else if (intakeReverseSetSpeed) {
             robot.intake.runIntake(0.8);
         } else if (intakeIsReversed) { // if reversed...
-            robot.intake.runIntake(-1);   // reverse
+            robot.intake.runIntake(1);   // reverse
         } else if (intakeTrigger > deadzone) { // if the trigger amt is more than deadzone
             robot.intake.runIntake(-intakeTrigger);  // normal
         } else { // finally if the trigger is not greater than the deadzone we want to inactivate b/c we'd still be feeding some small amount

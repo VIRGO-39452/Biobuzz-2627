@@ -41,6 +41,6 @@ public class DriveTrainTest extends LinearOpMode {
             telemetry.update();
         }
 
-        robot.drive.driveStop();
+        robot.drive.stop();
     }
 }

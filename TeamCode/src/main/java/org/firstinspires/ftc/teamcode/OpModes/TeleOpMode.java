@@ -9,10 +9,6 @@ public class TeleOpMode extends OpMode {
 
     private org.firstinspires.ftc.teamcode.Robot robot;
     private boolean indexerFeeding = false;
-    private double shooterTargetRPM = 138.0;
-    private boolean wasR2Pressed = false;
-    private static final double RPM_INCREMENT = 0.3;
-
 
     @Override
     public void init() {
@@ -28,20 +24,10 @@ public class TeleOpMode extends OpMode {
         double driveTurn = gamepad1.right_stick_x; // left and right for turning
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
-        boolean shooterIndexerKey = gamepad2.a; // cross on PS5
-        double shooterTargetRPM = 138.0;
+        float shooterIndexerKey = gamepad2.right_trigger;
+        double shooterTargetRPM = (double) shooterIndexerKey * 138.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
         double indexerPower = -0.65;
-
-        boolean isR2Pressed = gamepad2.right_trigger > 0.2f;
-        if (isR2Pressed && !wasR2Pressed) {
-            shooterTargetRPM += RPM_INCREMENT;
-        }
-
-        wasR2Pressed = isR2Pressed;
-
-        telemetry.addData("Incremented RPM:", shooterTargetRPM);
-
 
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;
@@ -72,7 +58,7 @@ public class TeleOpMode extends OpMode {
             indexerFeeding = false;
 
             telemetry.addData("Shooter/Indexer State:", "Reversing");
-        } else if (shooterIndexerKey) {
+        } else if (shooterIndexerKey > deadzone) {
             robot.shooter.runShooter(shooterTargetRPM);
 
             double realPower = robot.shooter.logging().getPower();
@@ -88,7 +74,7 @@ public class TeleOpMode extends OpMode {
             telemetry.addData("Ready to Feed:", indexerFeeding);
 
             if (indexerFeeding) {
-                robot.indexer.startIndexer(indexerPower);
+                robot.indexer.startIndexer(indexerPower * shooterIndexerKey);
 
                 double currentIndexerPower = robot.indexer.logging().getPower();
                 telemetry.addData("Indexer Power:", currentIndexerPower);

@@ -36,7 +36,7 @@ public class Autonomous extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (autoTimer.seconds() >= 30) {
-                robot.drive.driveStop();
+                robot.drive.stop();
 
                 telemetry.addLine("Autonomous timed out");
                 telemetry.update();

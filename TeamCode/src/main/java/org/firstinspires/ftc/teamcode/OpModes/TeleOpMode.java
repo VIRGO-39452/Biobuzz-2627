@@ -3,18 +3,18 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotContainer;
+import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Utils;
 
 @TeleOp(name = "Main TeleOp")
 public class TeleOpMode extends OpMode {
 
-    private RobotContainer robotContainer;
+    private Robot robot;
     private boolean indexerFeeding = false;
 
     @Override
     public void init() {
-        robotContainer = new RobotContainer(hardwareMap);
+        robot = new Robot(hardwareMap);
         telemetry.addLine("TeleOp initialized");
         telemetry.update();
     }
@@ -35,7 +35,7 @@ public class TeleOpMode extends OpMode {
         if (Math.abs(driveForward) < 0.1) driveForward = 0;
         if (Math.abs(driveTurn) < 0.1) driveTurn = 0;
 
-        robotContainer.drive.arcadeDrive(driveForward, driveTurn);
+        robot.drive.arcadeDrive(driveForward, driveTurn);
 
         telemetry.addData("Forward: ", driveForward);
         telemetry.addData("Turn: ", driveTurn);
@@ -45,26 +45,26 @@ public class TeleOpMode extends OpMode {
 
         if (intakeTrigger > deadzone) { // if the trigger amt is more than deadzone
             if (intakeIsReversed) { // if reversed...
-                robotContainer.intake.runIntake(intakeTrigger);   // reverse
+                robot.intake.runIntake(intakeTrigger);   // reverse
             } else { // what else can it be?
-                robotContainer.intake.runIntake(-intakeTrigger);  // normal
+                robot.intake.runIntake(-intakeTrigger);  // normal
             }
         } else { // finally if the trigger is not greater than the deadzone we want to inactivate b/c we'd still be feeding some small amount
-            robotContainer.intake.stopIntake();
+            robot.intake.stopIntake();
         }
 
         // Shooter + Indexer
         if (shooterIndexerReverse) {
-            robotContainer.shooter.runShooter(shooterTargetRPM);
-            robotContainer.indexer.startIndexer(indexerPower);
+            robot.shooter.runShooter(shooterTargetRPM);
+            robot.indexer.startIndexer(indexerPower);
             indexerFeeding = false;
 
             telemetry.addData("Shooter/Indexer State:", "Reversing");
         } else if (shooterIndexerKey) {
-            robotContainer.shooter.runShooter(shooterTargetRPM);
+            robot.shooter.runShooter(shooterTargetRPM);
 
-            double realPower = robotContainer.shooter.logging().getPower();
-            double actualRPM = Utils.calculateActualRPM(robotContainer.shooter.logging().getSpeed());
+            double realPower = robot.shooter.logging().getPower();
+            double actualRPM = Utils.calculateActualRPM(robot.shooter.logging().getSpeed());
 
             indexerFeeding = Utils.isReadyToFeed(shooterTargetRPM, actualRPM, indexerFeeding);
 
@@ -76,18 +76,18 @@ public class TeleOpMode extends OpMode {
             telemetry.addData("Ready to Feed:", indexerFeeding);
 
             if (indexerFeeding) {
-                robotContainer.indexer.startIndexer(indexerPower);
+                robot.indexer.startIndexer(indexerPower);
 
-                double currentIndexerPower = robotContainer.indexer.logging().getPower();
+                double currentIndexerPower = robot.indexer.logging().getPower();
                 telemetry.addData("Indexer Power:", currentIndexerPower);
                 telemetry.addData("Indexer Reversed?:", currentIndexerPower < 0);
             } else {
-                robotContainer.indexer.stop();
+                robot.indexer.stop();
             }
         } else {
             indexerFeeding = false;
-            robotContainer.shooter.stopShooter();
-            robotContainer.indexer.stop();
+            robot.shooter.stopShooter();
+            robot.indexer.stop();
         }
 
 
@@ -96,9 +96,9 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void stop() {
-        robotContainer.drive.driveStop();
-        robotContainer.shooter.stopShooter();
-        robotContainer.indexer.stop();
-        robotContainer.intake.stopIntake();
+        robot.drive.driveStop();
+        robot.shooter.stopShooter();
+        robot.indexer.stop();
+        robot.intake.stopIntake();
     }
 }

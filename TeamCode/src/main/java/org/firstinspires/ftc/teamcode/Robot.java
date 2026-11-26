@@ -7,13 +7,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.Indexer;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
-public class RobotContainer {
+public class Robot {
     public DriveTrain drive;
     public Intake intake;
     public Indexer indexer;
     public Shooter shooter;
 
-    public RobotContainer(HardwareMap hardwareMap) {
+    public Robot(HardwareMap hardwareMap) {
         drive = new DriveTrain(hardwareMap);
         intake = new Intake(hardwareMap);
         indexer = new Indexer(hardwareMap);

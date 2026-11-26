@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Logging.AutoVariables;
-import org.firstinspires.ftc.teamcode.RobotContainer;
+import org.firstinspires.ftc.teamcode.Robot;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Auto 1", group = "Autonomous")
 public class Autonomous extends LinearOpMode {
     private final ElapsedTime autoTimer = new ElapsedTime();
-    private RobotContainer robotContainer;
+    private Robot robot;
     private AutoVariables calcForMovement;
 
     private enum States {
@@ -22,7 +22,7 @@ public class Autonomous extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        robotContainer = new RobotContainer(hardwareMap);
+        robot = new Robot(hardwareMap);
 
         // 30 in and 24 in are placeholders for now
         calcForMovement = new AutoVariables(30, 24);
@@ -36,7 +36,7 @@ public class Autonomous extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (autoTimer.seconds() >= 30) {
-                robotContainer.drive.driveStop();
+                robot.drive.driveStop();
 
                 telemetry.addLine("Autonomous timed out");
                 telemetry.update();
@@ -44,25 +44,25 @@ public class Autonomous extends LinearOpMode {
             }
 
             if (step == States.BEGIN_DRIVE) {
-                robotContainer.drive.moveForward(24);
+                robot.drive.moveForward(24);
 
-                if (robotContainer.drive.isMovementFinished()) {
+                if (robot.drive.isMovementFinished()) {
                     step = States.ROTATE_AND_HYPOTENUSE;
                 }
 
             } else if (step == States.ROTATE_AND_HYPOTENUSE) {
-                robotContainer.drive.turn(calcForMovement.getTheta());
-                robotContainer.drive.moveForward(calcForMovement.getZ());
+                robot.drive.turn(calcForMovement.getTheta());
+                robot.drive.moveForward(calcForMovement.getZ());
 
-                if (robotContainer.drive.isMovementFinished()) {
+                if (robot.drive.isMovementFinished()) {
                     step = States.ROTATE_BACK;
                 }
 
             } else if (step == States.ROTATE_BACK) {
-                robotContainer.drive.turn(-(calcForMovement.getTheta()));
+                robot.drive.turn(-(calcForMovement.getTheta()));
 
-                if (robotContainer.drive.isMovementFinished()) {
-                    robotContainer.drive.driveStop();
+                if (robot.drive.isMovementFinished()) {
+                    robot.drive.driveStop();
 
                     telemetry.addLine("Autonomous session complete");
                     telemetry.update();

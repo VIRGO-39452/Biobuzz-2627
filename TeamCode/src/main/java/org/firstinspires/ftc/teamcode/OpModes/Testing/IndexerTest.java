@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode.OpModes.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotContainer;
+import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name = "Indexer Test")
 public class IndexerTest extends LinearOpMode {
-    private RobotContainer robotContainer;
+    private Robot robot;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robotContainer = new RobotContainer(hardwareMap);
+        robot = new Robot(hardwareMap);
 
         telemetry.addLine("Initialized Indexer");
         telemetry.addLine("Cross for regular, R1 for reverse");
@@ -26,19 +26,19 @@ public class IndexerTest extends LinearOpMode {
             if (reverse) power *= -1;
 
             if (key) {
-                robotContainer.indexer.startIndexer(power);
+                robot.indexer.startIndexer(power);
 
-                double realPower = robotContainer.indexer.logging().getPower();
+                double realPower = robot.indexer.logging().getPower();
 
                 telemetry.addData("Indexer power:", realPower);
                 telemetry.addData("Reversed?:", realPower < 0);
             }
             else{
-                robotContainer.indexer.stop();
+                robot.indexer.stop();
         }
 
         telemetry.update();
     }
-        robotContainer.indexer.stop();
+        robot.indexer.stop();
     }
 }

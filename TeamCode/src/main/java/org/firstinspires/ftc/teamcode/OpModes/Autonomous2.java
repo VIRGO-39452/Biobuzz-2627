@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotContainer;
+import org.firstinspires.ftc.teamcode.Robot;
 
 public class Autonomous2 extends LinearOpMode {
 
-    private RobotContainer robotContainer;
+    private Robot robot;
 
     private final ElapsedTime autoTimer2 = new ElapsedTime();
 
@@ -23,7 +23,7 @@ public class Autonomous2 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robotContainer = new RobotContainer(hardwareMap);
+        robot = new Robot(hardwareMap);
         step2 = States2.BEGIN_DRIVE_2;
 
         telemetry.addLine("Autonomous2 initialized");

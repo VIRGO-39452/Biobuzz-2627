@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode.OpModes.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.RobotContainer;
 
 @TeleOp(name = "DriveTrain Test")
 public class DriveTrainTest extends LinearOpMode {
-    private Robot robot;
+    private RobotContainer robotContainer;
 
     @Override
     public void runOpMode() {
 
-        robot = new Robot(hardwareMap);
+        robotContainer = new RobotContainer(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Instructions", "Left stick = Forward/Backward");
@@ -33,7 +33,7 @@ public class DriveTrainTest extends LinearOpMode {
                 turn = 0;
             }
 
-            robot.drive.arcadeDrive(forward, turn);
+            robotContainer.drive.arcadeDrive(forward, turn);
 
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
@@ -41,6 +41,6 @@ public class DriveTrainTest extends LinearOpMode {
             telemetry.update();
         }
 
-        robot.drive.driveStop();
+        robotContainer.drive.driveStop();
     }
 }

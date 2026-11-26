@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode.OpModes.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.RobotContainer;
 
 @TeleOp(name = "Shooter test")
 public class ShooterTest extends LinearOpMode {
-    private Robot robot;
+    private RobotContainer robotContainer;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(hardwareMap);
+        robotContainer = new RobotContainer(hardwareMap);
 
         telemetry.addLine("Initialized Shooter");
         telemetry.addLine("Cross for regular, L1 for reverse");
@@ -26,18 +26,18 @@ public class ShooterTest extends LinearOpMode {
             if (reverse) targetRPM *= -1;
 
             if (key) {
-                robot.shooter.runShooter(targetRPM);
+                robotContainer.shooter.runShooter(targetRPM);
 
-                double realPower = robot.shooter.logging().getPower();
+                double realPower = robotContainer.shooter.logging().getPower();
 
                 telemetry.addData("Shooter power:", realPower);
                 telemetry.addData("Reversed?:", realPower < 0);
             } else {
-                robot.shooter.stopShooter();
+                robotContainer.shooter.stopShooter();
             }
 
             telemetry.update();
         }
-        robot.shooter.stopShooter();
+        robotContainer.shooter.stopShooter();
     }
 }

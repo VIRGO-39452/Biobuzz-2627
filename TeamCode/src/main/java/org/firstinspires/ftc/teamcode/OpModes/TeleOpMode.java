@@ -91,8 +91,7 @@ public class TeleOpMode extends OpMode {
         telemetry.update(); // :D
     }
 
-    @Override
-    public void driveStop() {
+    public void stop() {
         robot.drive.stop();
         robot.shooter.stopShooter();
         robot.indexer.stop();

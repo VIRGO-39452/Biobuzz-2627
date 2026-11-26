@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 public class Shooter implements ElectricalSafeguards {
 
     private final DcMotorEx m_yellowjacket;
-    private final VoltageSensor m_voltageSensor;
+    // private final VoltageSensor m_voltageSensor;
     private final ElapsedTime stallTimer = new ElapsedTime();
     private final ElapsedTime brownOutTimer = new ElapsedTime();
     private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
@@ -38,7 +38,7 @@ public class Shooter implements ElectricalSafeguards {
      */
     public Shooter(HardwareMap hardwareMap) {
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
-        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
+        // m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
         m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
         m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -109,7 +109,8 @@ public class Shooter implements ElectricalSafeguards {
     // get voltage
     @Override
     public double getVoltage() {
-        return m_voltageSensor.getVoltage();
+        return 0;
+        //return m_voltageSensor.getVoltage();
     }
 
     @Override

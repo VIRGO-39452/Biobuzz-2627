@@ -35,12 +35,12 @@ public class DriveTrain implements ElectricalSafeguards {
     private final ElapsedTime brownOutTimer = new ElapsedTime();
     private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
     private boolean inBrownoutState = false;
-    private final VoltageSensor m_voltageSensor;
+   // private final VoltageSensor m_voltageSensor;
 
     public DriveTrain(HardwareMap hardwareMap) {
 
         // to read voltage
-        m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
+        // m_voltageSensor = hardwareMap.get(VoltageSensor.class, VOLTAGE_SENSOR);
 
         // left wheel
         m_left = hardwareMap.get(DcMotorEx.class, LEFT_WHEEL);
@@ -198,7 +198,9 @@ public class DriveTrain implements ElectricalSafeguards {
     // get voltage
     @Override
     public double getVoltage() {
-       return m_voltageSensor.getVoltage();
+
+        return 0;
+       // return m_voltageSensor.getVoltage();
     }
 
     @Override

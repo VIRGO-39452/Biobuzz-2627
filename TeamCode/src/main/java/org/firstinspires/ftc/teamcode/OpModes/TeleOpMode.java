@@ -1,20 +1,18 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Utils;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @TeleOp(name = "Main TeleOp")
 public class TeleOpMode extends OpMode {
 
-    private Robot robot;
+    private org.firstinspires.ftc.teamcode.Robot robot;
     private boolean indexerFeeding = false;
 
     @Override
     public void init() {
-        robot = new Robot(hardwareMap);
+        robot = new org.firstinspires.ftc.teamcode.Robot(hardwareMap);
         telemetry.addLine("TeleOp initialized");
         telemetry.update();
     }
@@ -90,13 +88,12 @@ public class TeleOpMode extends OpMode {
             robot.indexer.stop();
         }
 
-
         telemetry.update(); // :D
     }
 
     @Override
-    public void stop() {
-        robot.drive.driveStop();
+    public void driveStop() {
+        robot.drive.stop();
         robot.shooter.stopShooter();
         robot.indexer.stop();
         robot.intake.stopIntake();

@@ -43,8 +43,7 @@ public class Indexer {
      *              ranging from -1.0 to 1.0
      */
     public void startIndexer(double power) {
-        // TODO verify direction
-        m_servo.setPower(power);
+        m_servo.setPower(-power);
     }
 
     /**

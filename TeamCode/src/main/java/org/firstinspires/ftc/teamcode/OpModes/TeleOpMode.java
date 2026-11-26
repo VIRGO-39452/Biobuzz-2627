@@ -62,27 +62,21 @@ public class TeleOpMode extends OpMode {
         // Shooter + Indexer
         if (shooterIndexerTurbo) {
             robot.shooter.runShooter(Utils.calculateActualRPM(1250.0));
+            robot.indexer.startIndexer(-1); // full power
 
             double realPower = robot.shooter.logging().getPower();
             double actualRPM = Math.abs(Utils.calculateActualRPM(robot.shooter.logging().getSpeed()));
+            double currentIndexerPower = robot.indexer.logging().getPower();
             indexerFeeding = Utils.isReadyToFeed(Utils.calculateActualRPM(1200), actualRPM, indexerFeeding);
 
+            telemetry.addData("Indexer Power:", currentIndexerPower);
+            telemetry.addData("Indexer Reversed (unexpected)?:", currentIndexerPower > 0);
             telemetry.addData("Shooter Power:", realPower);
             telemetry.addData("Reversed (unexpected)?:", realPower > 0);
             telemetry.addData("Target RPM:", turboTargetRPM);
             telemetry.addData("Actual RPM:", actualRPM);
             telemetry.addData("RPM Error:", turboTargetRPM - actualRPM);
             telemetry.addData("Ready to Feed:", indexerFeeding);
-
-            if (indexerFeeding) {
-                robot.indexer.startIndexer(indexerPower);
-
-                double currentIndexerPower = robot.indexer.logging().getPower();
-                telemetry.addData("Indexer Power:", currentIndexerPower);
-                telemetry.addData("Indexer Reversed (unexpected)?:", currentIndexerPower > 0);
-            } else {
-                robot.indexer.stop();
-            }
         } else if (shooterIndexerKey > deadzone) {
             robot.shooter.runShooter(shooterTargetRPM);
 

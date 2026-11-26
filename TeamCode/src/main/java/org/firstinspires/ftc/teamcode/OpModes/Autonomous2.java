@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 //TODO check over with sim
+@Autonomous(name = "Auto 2", group = "Autonomous")
 public class Autonomous2 extends LinearOpMode {
 
     private Robot robot;
@@ -51,8 +53,7 @@ public class Autonomous2 extends LinearOpMode {
 
             } else if (step2 == States2.ROTATE) {
 
-                robot.drive.turn(180);
-                robot.drive.turn(-90);
+                robot.drive.turn(90);
 
 
                 if (robot.drive.isMovementFinished()) {
@@ -69,7 +70,6 @@ public class Autonomous2 extends LinearOpMode {
 
             } else if (step2 == States2.ROTATE_BACK) {
 
-                robot.drive.turn(-180);
                 robot.drive.turn(90);
 
 

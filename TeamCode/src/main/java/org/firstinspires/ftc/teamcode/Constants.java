@@ -7,13 +7,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
 
     // All subsystems
-    public static final String VOLTAGE_SENSOR = "voltageSensor";
+    public static final String VOLTAGE_SENSOR = "Control Hub";
     public static final double MIN_CURRENT = 0.25;
     public static final double MAX_CURRENT = 4.0;
     public static final double MIN_VELOCITY = 25.0;
     public static final double MIN_VOLTAGE = 8.5;
     public static final double BROWNOUT_RECOVERY_VOLTAGE = MIN_VOLTAGE + 0.5;
-    public static final double TRACK_WIDTH = 15.75; //in inches
+    public static final double TRACK_WIDTH = 15.53; //in inches
 
     public static final double STALL_TIME_SECONDS = 0.45;
     public static final double BROWNOUT_TIME_SECONDS = 0.3;

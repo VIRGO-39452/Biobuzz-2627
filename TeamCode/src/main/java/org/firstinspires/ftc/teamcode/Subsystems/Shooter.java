@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_CURRENT;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
+import static org.firstinspires.ftc.teamcode.Constants.VOLTAGE_SENSOR;
 import static org.firstinspires.ftc.teamcode.Constants.YELLOW_JACKET_SHOOTER;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
 import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
 
-public class Shooter {
+public class Shooter implements ElectricalSafeguards {
 
     private final DcMotorEx m_yellowjacket;
     private final VoltageSensor m_voltageSensor;
@@ -67,7 +68,7 @@ public class Shooter {
                 m_yellowjacket.setPower(Math.copySign(0.5, targetRPM));
                 return;
             }
-        }*/
+        }
 
         if (m_yellowjacket.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
             m_yellowjacket.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -99,7 +100,7 @@ public class Shooter {
             stallTimer.reset();
             return false;
         }
-    }*/
+    }
 
     // get current
     @Override

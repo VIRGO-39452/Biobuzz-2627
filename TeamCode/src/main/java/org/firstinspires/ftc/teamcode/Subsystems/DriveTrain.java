@@ -39,7 +39,7 @@ public class DriveTrain {
         double radius = (WHEEL_DIAMETER / DistanceUnit.mmPerInch) / 2;
         double circumference = 2 * Math.PI * radius;
         double rotations = distance / circumference;
-        int targetTicks = (int) Math.round(rotations * 1425.1 * 1); // 1425.1 pulse/rev
+        int targetTicks = (int) Math.round(rotations * 537.7 * 1); // 537.7 pulse/rev
 
         // reset motors
         m_left.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -73,7 +73,7 @@ public class DriveTrain {
 
         double wheelCircumference = Math.PI * (WHEEL_DIAMETER / DistanceUnit.mmPerInch);
         double rotations = wheelDistance / wheelCircumference;
-        int targetTicks = (int) Math.round(rotations * 1425.1 * 1);
+        int targetTicks = (int) Math.round(rotations * 537.7 * 1);
 
         m_left.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         m_right.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);

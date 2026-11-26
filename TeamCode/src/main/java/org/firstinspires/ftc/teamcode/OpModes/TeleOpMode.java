@@ -9,6 +9,10 @@ public class TeleOpMode extends OpMode {
 
     private org.firstinspires.ftc.teamcode.Robot robot;
     private boolean indexerFeeding = false;
+    private double shooterTargetRPM = 138.0;
+    private boolean wasR2Pressed = false;
+    private static final double RPM_INCREMENT = 0.3;
+
 
     @Override
     public void init() {
@@ -28,6 +32,16 @@ public class TeleOpMode extends OpMode {
         double shooterTargetRPM = 138.0;
         boolean shooterIndexerReverse = gamepad2.right_bumper;
         double indexerPower = -0.65;
+
+        boolean isR2Pressed = gamepad2.right_trigger > 0.2f;
+        if (isR2Pressed && !wasR2Pressed) {
+            shooterTargetRPM += RPM_INCREMENT;
+        }
+
+        wasR2Pressed = isR2Pressed;
+
+        telemetry.addData("Incremented RPM:", shooterTargetRPM);
+
 
         // DriveTrain
         if (Math.abs(driveForward) < 0.1) driveForward = 0;

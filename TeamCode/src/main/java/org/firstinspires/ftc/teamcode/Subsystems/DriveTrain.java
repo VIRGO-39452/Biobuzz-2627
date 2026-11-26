@@ -58,8 +58,8 @@ public class DriveTrain implements ElectricalSafeguards {
             return;
         }
 
-        double leftPower = forward + turn;
-        double rightPower = forward - turn;
+        double leftPower = forward - turn;
+        double rightPower = forward + turn;
 
         double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
 

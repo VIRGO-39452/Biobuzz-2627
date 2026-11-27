@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-//TODO check over with sim
-@Autonomous(name = "Auto 2", group = "Autonomous")
-public class Autonomous2 extends LinearOpMode {
+@Autonomous(name = "Start in loading", group = "Autonomous")
+public class StartInLoading extends LinearOpMode {
 
     private Robot robot;
 
@@ -32,7 +31,7 @@ public class Autonomous2 extends LinearOpMode {
         robot = new Robot(hardwareMap);
         step2 = States2.BEGIN_DRIVE_1;
 
-        telemetry.addLine("Autonomous2 initialized");
+        telemetry.addLine("StartInLoading initialized");
         telemetry.update();
 
         waitForStart();

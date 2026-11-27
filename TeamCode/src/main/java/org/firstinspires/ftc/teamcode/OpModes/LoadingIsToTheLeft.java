@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Logging.AutoVariables;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Auto 1", group = "Autonomous")
-public class Autonomous extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Loading is to the left", group = "Autonomous")
+public class LoadingIsToTheLeft extends LinearOpMode {
     private final ElapsedTime autoTimer = new ElapsedTime();
     private Robot robot;
     private AutoVariables calcForMovement;
@@ -28,7 +28,7 @@ public class Autonomous extends LinearOpMode {
         calcForMovement = new AutoVariables(30, 24);
         step = States.BEGIN_DRIVE;
 
-        telemetry.addLine("Autonomous initialized");
+        telemetry.addLine("LoadingIsToTheLeft initialized");
         telemetry.update();
 
         waitForStart();
@@ -38,7 +38,7 @@ public class Autonomous extends LinearOpMode {
             if (autoTimer.seconds() >= 30) {
                 robot.drive.stop();
 
-                telemetry.addLine("Autonomous timed out");
+                telemetry.addLine("LoadingIsToTheLeft timed out");
                 telemetry.update();
                 break;
             }
@@ -64,7 +64,7 @@ public class Autonomous extends LinearOpMode {
                 if (robot.drive.isMovementFinished()) {
                     robot.drive.stop();
 
-                    telemetry.addLine("Autonomous session complete");
+                    telemetry.addLine("LoadingIsToTheLeft session complete");
                     telemetry.update();
                     break;
                 }

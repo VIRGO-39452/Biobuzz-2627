@@ -80,7 +80,7 @@ public class Shooter implements ElectricalSafeguards {
         }
 
         double ticksPerSecond = (targetRPM * TPR) / 60.0;
-        m_yellowjacket.setVelocity(-5 * ticksPerSecond);
+        m_yellowjacket.setVelocity(-ticksPerSecond);
     }
 
     public void stopShooter() {

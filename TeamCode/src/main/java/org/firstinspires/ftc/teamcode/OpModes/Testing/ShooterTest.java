@@ -21,7 +21,7 @@ public class ShooterTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             boolean key = gamepad2.a; // cross on ps5
-            double targetRPM = 156.0;
+            double targetRPM = 300.0;
             boolean reverse = gamepad2.right_bumper;
             if (reverse) targetRPM *= -1;
 

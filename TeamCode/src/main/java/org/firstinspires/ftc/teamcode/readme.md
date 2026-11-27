@@ -1,3 +1,60 @@
+# Virgo Robotics | 39452
+## BioBuz 2026-2027
+
+This is the official repository of the Virgo Robotics Team #39452, 
+for the 2026–2027 FIRST Tech Challenge BioBuzz season.
+
+## Team:
+1. **Shubham Dhall - Mechanical Co-Captain**
+2. **Shiven Mishra - Mechanical Co-Captain**
+3. **Jivin Mazumder - Programing Co-Captain**
+4. **Aadithya Thasma - Programing Co-Captain**
+5. **Michael Malamud - Programing Co-Captain**
+6. **Faiz Hussain - Business Captain**
+7. **Kyle Hu - Business Captain**
+8. Ray He - Business Member
+9. Jason Yang - Business Member
+8. Anuva Lagichetty - Mechanical Member
+9. Devin Tushar Panchal - Mechanical Member
+10. Krish Shah - Mechanical Member
+11. Jhanavi Padala - Mechanical Member
+12. Palaash Gupta - Mechanical Member
+13. Ethan Mallik - Mechanical Member
+14. Avani Pamnani - Mechanical Member
+15. Krishay Patel - Mechanical Member
+16. Marcus Perez - Mechanical Member
+
+## Robot Information
+
+This codebase is developed for Virgo Robotics Team #39452's 2026–2027 FTC robot, based on the **goBILDA FTC Starter Bot** design.
+
+The robot uses a **tank drive drivetrain** and consists of four primary subsystems: the drivetrain, intake, shooter, and indexer. Its mechanisms are powered by goBILDA Yellow Jacket DC motors and servos, with a REV Robotics Control Hub handling robot control and communication.
+
+### Subsystems
+
+- **Drivetrain:** Uses a tank drive configuration with independently controlled left and right sides. This allows the robot to drive forward, reverse, and turn by varying the speed and direction of each side.
+
+- **Intake:** Responsible for collecting game elements from the field and transferring them into the robot for processing.
+
+- **Shooter:** Designed to launch game elements toward the scoring targets. Its motorized mechanism provides the power needed for consistent shots.
+
+- **Indexer:** Moves game elements from the intake system into the shooter, helping control the feeding and launching process.
+
+### Hardware & Electronics
+
+- **Yellow Jacket Motors:** DC gear motors used to power the robot's drivetrain and motorized mechanisms.
+
+- **Servos:** Used for mechanisms requiring controlled positional movement, such as moving, positioning, or actuating components.
+
+- **REV Robotics Control Hub:** The robot's main control system. It runs the FTC robot code, communicates with the Driver Hub, and manages the connected motors, servos, and sensors.
+
+- **12V NiMH Nested Battery:** Supplies electrical power to the robot's electronics and mechanisms.
+
+
+
+---
+# Original readme:
+
 ## TeamCode Module
 
 Welcome!

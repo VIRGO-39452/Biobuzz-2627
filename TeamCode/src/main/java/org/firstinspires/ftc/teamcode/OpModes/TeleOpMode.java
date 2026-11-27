@@ -29,29 +29,65 @@ public class TeleOpMode extends OpMode {
         boolean shooterIndexerTurbo = gamepad2.right_bumper;
         double indexerPower = -0.65;
 
-        boolean intakeSetSpeed = gamepad1.dpad_up;
-        boolean intakeReverseSetSpeed = gamepad1.dpad_down;
+        boolean driveSetSpeed = gamepad1.dpad_up;
+        boolean driveReverseSetSpeed = gamepad1.dpad_down;
         boolean reverseShooter = gamepad2.x;
         boolean reverseIndexer = gamepad2.a;
         double turboTargetRPM = Utils.calculateActualRPM(1250.0);
 
+        float driveBackwardTrigger = gamepad1.left_trigger;
+        float driveForwardTrigger = gamepad1.right_trigger;
+        boolean turnLeftBumper = gamepad1.left_bumper;
+        boolean turnRightBumper = gamepad1.right_bumper;
+
         // DriveTrain
-        if (Math.abs(driveForward) < 0.1) driveForward = 0;
-        if (Math.abs(driveTurn) < 0.1) driveTurn = 0;
+        double drive = 0;
+        double turn = 0;
 
-        robot.drive.arcadeDrive(driveForward, driveTurn);
+        boolean analogMode = Math.abs(driveForward) > 0.1 ||
+                Math.abs(driveTurn) > 0.1;
+        if (analogMode) {
+            // with L3/R3
+            drive = Math.abs(driveForward) < 0.1 ? 0 : driveForward;
+            turn = Math.abs(driveTurn) < 0.1 ? 0 : driveTurn;
 
-        telemetry.addData("Forward: ", driveForward);
-        telemetry.addData("Turn: ", driveTurn);
+        } else {
+
+            // R2/L2
+            drive = driveForwardTrigger - driveBackwardTrigger;
+
+            // d pad overrides trigger movement
+            if (driveSetSpeed) {
+                drive = 0.75;
+            } else if (driveReverseSetSpeed) {
+                drive = -0.75;
+            }
+
+            // R1/L1
+            if (turnLeftBumper) {
+                turn -= 0.25;
+            }
+
+            if (turnRightBumper) {
+                turn += 0.25;
+            }
+        }
+
+        drive = Math.max(-1, Math.min(1, drive));
+        turn = Math.max(-1, Math.min(1, turn));
+
+        robot.drive.arcadeDrive(drive, turn);
+
+        telemetry.addData("Driving Mode:",
+                analogMode ? "Analog" : "Buttons");
+
+        telemetry.addData("Forward:", drive);
+        telemetry.addData("Turn:", turn);
 
         // Intake
         float deadzone = 0.05f;
 
-        if (intakeSetSpeed) {
-            robot.intake.runIntake(-0.8);
-        } else if (intakeReverseSetSpeed) {
-            robot.intake.runIntake(0.8);
-        } else if (intakeIsReversed) { // if reversed...
+        if (intakeIsReversed) { // if reversed...
             robot.intake.runIntake(1);   // reverse
         } else if (intakeTrigger > deadzone) { // if the trigger amt is more than deadzone
             robot.intake.runIntake(-intakeTrigger);  // normal
@@ -67,7 +103,6 @@ public class TeleOpMode extends OpMode {
             double realPower = robot.shooter.logging().getPower();
             double actualRPM = Math.abs(Utils.calculateActualRPM(robot.shooter.logging().getSpeed()));
             double currentIndexerPower = robot.indexer.logging().getPower();
-            indexerFeeding = Utils.isReadyToFeed(Utils.calculateActualRPM(1200), actualRPM, indexerFeeding);
 
             telemetry.addData("Indexer Power:", currentIndexerPower);
             telemetry.addData("Indexer Reversed (unexpected)?:", currentIndexerPower > 0);

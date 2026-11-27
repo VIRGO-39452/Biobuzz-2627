@@ -13,7 +13,7 @@ public class StartInLoading extends LinearOpMode {
 
     private final ElapsedTime autoTimer2 = new ElapsedTime();
 
-    private double x1, x2, y;
+    private double x, y1, y2;
 
     private enum States2 {
         BEGIN_DRIVE_1,
@@ -38,13 +38,13 @@ public class StartInLoading extends LinearOpMode {
         autoTimer2.reset();
 
         while (opModeIsActive()) {
-            y = 9.0;
-            x1 = 7.5;
-            x2 = 4.0;
+            y1 = 9.0;
+            y2 = 7.5;
+            x = 4.0;
 
             if (step2 == States2.BEGIN_DRIVE_1) {
 
-                robot.drive.moveForward(y);
+                robot.drive.moveForward(y1);
 
                 if (robot.drive.isMovementFinished()) {
                     step2 = States2.ROTATE;
@@ -61,7 +61,7 @@ public class StartInLoading extends LinearOpMode {
 
             } else if (step2 == States2.BEGIN_DRIVE_2) {
 
-                robot.drive.moveForward(x2);
+                robot.drive.moveForward(x);
 
                 if (robot.drive.isMovementFinished()) {
                     step2 = States2.ROTATE_BACK;
@@ -78,7 +78,7 @@ public class StartInLoading extends LinearOpMode {
 
             } else if (step2 == States2.DRIVE_BACK) {
 
-                robot.drive.moveForward(x1);
+                robot.drive.moveForward(y2);
 
                 if (robot.drive.isMovementFinished()) {
                     robot.drive.stop();

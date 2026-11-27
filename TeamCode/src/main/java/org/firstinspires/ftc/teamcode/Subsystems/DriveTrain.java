@@ -1,23 +1,45 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Constants.CONTROL_HUB;
 import static org.firstinspires.ftc.teamcode.Constants.LEFT_WHEEL;
+import static org.firstinspires.ftc.teamcode.Constants.MIN_VELOCITY;
 import static org.firstinspires.ftc.teamcode.Constants.RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.Constants.WHEEL_DIAMETER;
 import static org.firstinspires.ftc.teamcode.Constants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.Constants.MIN_VOLTAGE;
+import static org.firstinspires.ftc.teamcode.Constants.MAX_CURRENT;
+import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_SHUTOFF_SECONDS;
+import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_TIME_SECONDS;
+import static org.firstinspires.ftc.teamcode.Constants.BROWNOUT_RECOVERY_VOLTAGE;
+import static org.firstinspires.ftc.teamcode.Constants.STALL_TIME_SECONDS;
 
 
 import java.lang.Math;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.DriveTrainLog;
 
-public class DriveTrain {
+public class DriveTrain implements ElectricalSafeguards {
     private final DcMotorEx m_left;
     private final DcMotorEx m_right;
+    private final VoltageSensor m_voltageSensor;
+    private final ElapsedTime stallTimer = new ElapsedTime();
+    private final ElapsedTime brownOutTimer = new ElapsedTime();
+    private final ElapsedTime brownoutDurationTimer = new ElapsedTime();
+    private boolean inBrownoutState = false;
 
     public DriveTrain(HardwareMap hardwareMap) {
+        // to determine voltage
+        m_voltageSensor = hardwareMap.get(VoltageSensor.class, CONTROL_HUB);
+
         // left wheel
         m_left = hardwareMap.get(DcMotorEx.class, LEFT_WHEEL);
         m_left.setDirection(DcMotorEx.Direction.REVERSE); //this is reversed since the motor would be mounted the other way around?
@@ -101,8 +123,25 @@ public class DriveTrain {
 
     //check documentation for how this drive works
     public void arcadeDrive(double forward, double turn) {
+
         double leftPower = forward + turn;
         double rightPower = forward - turn;
+
+        if (isStalled()) {
+            m_left.setPower(0.0);
+            m_right.setPower(0.0);
+            return;
+        }
+
+        if (isBrownout()) {
+            if (brownoutDurationTimer.seconds() >= BROWNOUT_SHUTOFF_SECONDS) {
+                stop();
+                return;
+            } else {
+                leftPower *= 0.5;
+                rightPower *= 0.5;
+            }
+        }
 
         double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
 
@@ -121,7 +160,64 @@ public class DriveTrain {
         m_right.setPower(0);
     }
 
-    // TODO verify if encoders are used in this subsystem to add stalling and brownout detection
+    @Override
+    public boolean isStalled() {
+        double leftVelocity = Math.abs(m_left.getVelocity());
+        double rightVelocity = Math.abs(m_right.getVelocity());
+
+        double leftCurrent = Math.abs(m_left.getCurrent(CurrentUnit.AMPS));
+        double rightCurrent = Math.abs(m_right.getCurrent(CurrentUnit.AMPS));
+
+        boolean rightCheck = rightCurrent > MAX_CURRENT && rightVelocity < MIN_VELOCITY;
+        boolean leftCheck = leftCurrent > MAX_CURRENT && leftVelocity < MIN_VELOCITY;
+
+        if (rightCheck || leftCheck) {
+            return stallTimer.seconds() >= STALL_TIME_SECONDS;
+        } else {
+            stallTimer.reset();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isBrownout() {
+        double voltage = getVoltage();
+
+        if (!inBrownoutState) {
+            if (voltage < MIN_VOLTAGE) {
+                if (brownOutTimer.seconds() >= BROWNOUT_TIME_SECONDS) {
+                    inBrownoutState = true;
+                    brownoutDurationTimer.reset();
+                    return true;
+                }
+            } else {
+                brownOutTimer.reset();
+            }
+            return false;
+        } else {
+            // Stay in brownout until voltage recovers above the recovery threshold
+            if (voltage >= BROWNOUT_RECOVERY_VOLTAGE) {
+                inBrownoutState = false;
+                brownOutTimer.reset();
+                return false;
+            }
+            return true;
+        }
+    }
+
+    @Override
+    public double getVoltage() {
+        return m_voltageSensor.getVoltage();
+    }
+
+    @Override
+    public double getCurrent() {
+        double leftCurrent = Math.abs(m_left.getCurrent(CurrentUnit.AMPS));
+        double rightCurrent = Math.abs(m_right.getCurrent(CurrentUnit.AMPS));
+
+        return leftCurrent + rightCurrent;
+    }
+
 
     public DriveTrainLog logging() {
         double leftPower = m_left.getPower(); //assigns the left motor's power (-1.0 to 1.0) to a double leftPower

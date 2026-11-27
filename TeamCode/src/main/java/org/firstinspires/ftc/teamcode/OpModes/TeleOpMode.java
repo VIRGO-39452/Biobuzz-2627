@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Utils;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -149,6 +150,26 @@ public class TeleOpMode extends OpMode {
             indexerFeeding = false;
             robot.shooter.stopShooter();
             robot.indexer.stop();
+        }
+
+        if (robot.shooter.isBrownout()) {
+            telemetry.addLine("Motor is experiencing brownout in Shooter");
+            telemetry.addData("Current:", robot.shooter.getCurrent());
+            telemetry.addData("Voltage:", robot.shooter.getVoltage());
+        } else if (robot.shooter.isStalled()) {
+            telemetry.addLine("Motor is stalling in Shooter");
+            telemetry.addData("Current:", robot.shooter.getCurrent());
+            telemetry.addData("Voltage:", robot.shooter.getVoltage());
+        }
+
+        if (robot.drive.isStalled()) {
+            telemetry.addLine("Motor is experiencing brownout in DriveTrain");
+            telemetry.addData("Combined Current:", robot.drive.getCurrent());
+            telemetry.addData("Voltage:", robot.drive.getVoltage());
+        } else if (robot.drive.isBrownout()) {
+            telemetry.addLine("Motor is experiencing brownout in DriveTrain");
+            telemetry.addData("Combined Current:", robot.drive.getCurrent());
+            telemetry.addData("Voltage:", robot.drive.getVoltage());
         }
 
         telemetry.update(); // :D

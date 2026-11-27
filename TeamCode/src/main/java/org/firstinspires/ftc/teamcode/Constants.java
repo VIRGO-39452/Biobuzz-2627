@@ -14,8 +14,8 @@ public class Constants {
     public static final double TRACK_WIDTH = 15.53; //in inches
 
     public static final double STALL_TIME_SECONDS = 0.45;
-    public static final double BROWNOUT_TIME_SECONDS = 0.3;
-    public static final double BROWNOUT_SHUTOFF_SECONDS = 1.0;
+    public static final double BROWNOUT_TIME_SECONDS = 0.1;
+    public static final double BROWNOUT_SHUTOFF_SECONDS = 0.3;
 
 
     // Intake

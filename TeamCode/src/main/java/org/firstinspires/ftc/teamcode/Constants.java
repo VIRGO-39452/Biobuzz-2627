@@ -7,7 +7,7 @@ public class Constants {
     // All subsystems
     public static final String CONTROL_HUB = "Control Hub";
     public static final double MIN_CURRENT = 0.25;
-    public static final double MAX_CURRENT = 4.0;
+    public static final double MAX_CURRENT = 18.5;
     public static final double MIN_VELOCITY = 25.0;
     public static final double MIN_VOLTAGE = 8.5;
     public static final double BROWNOUT_RECOVERY_VOLTAGE = MIN_VOLTAGE + 0.5;

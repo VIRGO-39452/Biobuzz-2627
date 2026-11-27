@@ -26,7 +26,7 @@ public class TeleOpMode extends OpMode {
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         float shooterIndexerKey = gamepad2.right_trigger;
-        double shooterTargetRPM = (double) shooterIndexerKey * 312;
+        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(1250);
         boolean shooterIndexerTurbo = gamepad2.right_bumper;
         double indexerPower = -0.65;
 
@@ -34,7 +34,7 @@ public class TeleOpMode extends OpMode {
         boolean driveReverseSetSpeed = gamepad1.dpad_down;
         boolean reverseShooter = gamepad2.x;
         boolean reverseIndexer = gamepad2.a;
-        double turboTargetRPM = 312;
+        double turboTargetRPM = Utils.calculateActualRPM(1250);
 
         float driveBackwardTrigger = gamepad1.left_trigger;
         float driveForwardTrigger = gamepad1.right_trigger;

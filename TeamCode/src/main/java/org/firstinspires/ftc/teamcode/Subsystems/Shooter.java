@@ -38,7 +38,7 @@ public class Shooter implements ElectricalSafeguards {
         m_yellowjacket = hardwareMap.get(DcMotorEx.class, YELLOW_JACKET_SHOOTER);
         m_voltageSensor = hardwareMap.get(VoltageSensor.class, CONTROL_HUB);
         m_yellowjacket.setDirection(DcMotorEx.Direction.FORWARD); // TODO verify direction
-        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        m_yellowjacket.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         m_yellowjacket.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 

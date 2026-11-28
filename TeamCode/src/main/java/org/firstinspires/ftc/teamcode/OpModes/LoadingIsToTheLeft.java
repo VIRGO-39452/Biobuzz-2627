@@ -25,7 +25,7 @@ public class LoadingIsToTheLeft extends LinearOpMode {
         robot = new Robot(hardwareMap);
 
         // 30 in and 24 in are placeholders for now
-        calcForMovement = new AutoVariables(-24, 24);
+        calcForMovement = new AutoVariables(-26, 24);
         step = States.BEGIN_DRIVE;
 
         telemetry.addLine("LoadingIsToTheLeft initialized");

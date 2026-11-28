@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Logging.ShooterLog;
+import org.firstinspires.ftc.teamcode.Utils;
 
 public class Shooter implements ElectricalSafeguards {
 
@@ -28,6 +29,7 @@ public class Shooter implements ElectricalSafeguards {
     private final ElapsedTime brownOutTimer = new ElapsedTime();
     private boolean wasRunning = false;
     private final double TPR = 537.7;
+    private final ElapsedTime runTime = new ElapsedTime();
 
     /**
      * make a new shooter subsystem

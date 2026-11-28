@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name = "Start in front of hive", group = "Autonomous")
 public class StartInFrontOfHive extends LinearOpMode {
     private Robot robot;
+    private final ElapsedTime runTime = new ElapsedTime();
 
     private enum States {
         DRIVE_TURN_1,
@@ -57,6 +59,21 @@ public class StartInFrontOfHive extends LinearOpMode {
 
         }
 
+
         robot.drive.stop();
     }
+    public void runPowerTime(double targetRPM, double time) {
+        runTime.reset();
+
+        while (opModeIsActive() && runTime.seconds() < time) {
+            robot.shooter.runShooter(targetRPM);
+
+            if (runTime.seconds() >= 1.5) {
+                robot.indexer.startIndexer(-0.85);
+            }
+        }
+        robot.shooter.stopShooter();
+        robot.indexer.stop();
+    }
+
 }

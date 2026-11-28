@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import static org.firstinspires.ftc.teamcode.Constants.TARGET_TPS;
+
 import org.firstinspires.ftc.teamcode.ElectricalSafeguards;
 import org.firstinspires.ftc.teamcode.Utils;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,7 +22,7 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void loop() {
-        double targetTPS = 1250;
+
 
         // button presses
         double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
@@ -28,7 +30,7 @@ public class TeleOpMode extends OpMode {
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         float shooterIndexerKey = gamepad2.right_trigger;
-        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(targetTPS);
+        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(TARGET_TPS);
         boolean shooterIndexerTurbo = gamepad2.right_bumper;
         double indexerPower = -1 ;
 
@@ -36,7 +38,7 @@ public class TeleOpMode extends OpMode {
         boolean driveReverseSetSpeed = gamepad1.dpad_down;
         boolean reverseShooter = gamepad2.x;
         boolean reverseIndexer = gamepad2.a;
-        double turboTargetRPM = Utils.calculateActualRPM(targetTPS);
+        double turboTargetRPM = Utils.calculateActualRPM(TARGET_TPS);
 
         float driveBackwardTrigger = gamepad1.left_trigger;
         float driveForwardTrigger = gamepad1.right_trigger;

@@ -25,8 +25,8 @@ public class LoadingIsToTheRight extends LinearOpMode {
 
         // start
         robot = new Robot(hardwareMap);
-        up = 9;
-        right = 9;
+        up = 17;
+        right = 15;
         STATES state = STATES.FORWARD;
 
         telemetry.addLine("Loading is to the right INIT");

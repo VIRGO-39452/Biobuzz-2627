@@ -25,6 +25,7 @@ public class Constants {
 
     // Shooter
     public static final String YELLOW_JACKET_SHOOTER = "yellowJacketShooter";
+    public static final double TARGET_TPS = 1125;
 
     // Indexer
     public static final String SERVO_INDEXER = "servoIndexer";

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import static org.firstinspires.ftc.teamcode.Constants.TARGET_TPS;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -26,7 +28,7 @@ public class TeleOpModeOneController extends OpMode {
         boolean intakeIsReversed = gamepad1.left_bumper; //gamepad1. L1 intake reverse
         float intakeTrigger = gamepad1.left_trigger; //gamepad1. L2 intake trigger
         float shooterIndexerKey = gamepad1.right_trigger; //gamepad1. R2 shooterindexer trigger
-        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(1250);
+        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(TARGET_TPS);
         boolean shooterIndexerTurbo = gamepad1.right_bumper; //gamepad1. R1 shooterindexer turbo...not using
         double indexerPower = -0.65;
 
@@ -34,7 +36,7 @@ public class TeleOpModeOneController extends OpMode {
         boolean driveReverseSetSpeed = gamepad1.dpad_down; //drive setspeed
         boolean reverseShooter = gamepad1.x; //reverse shooter x
         boolean reverseIndexer = gamepad1.a; //reverse indexer a
-        double turboTargetRPM = Utils.calculateActualRPM(1250);
+        double turboTargetRPM = Utils.calculateActualRPM(TARGET_TPS);
 
         float driveBackwardTrigger =  0; //gamepad1.left_trigger;
         float driveForwardTrigger = 0; //gamepad1.right_trigger;

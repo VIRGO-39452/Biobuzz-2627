@@ -97,7 +97,7 @@ public class Shooter implements ElectricalSafeguards {
 
         // have yet to clarify the values for min/max voltage and min/max current
 
-        if (current < MIN_CURRENT && velocity < MIN_VELOCITY) {
+        if (current > MIN_CURRENT && velocity < MIN_VELOCITY) {
             return stallTimer.seconds() >= STALL_TIME_SECONDS;
         } else {
             stallTimer.reset();

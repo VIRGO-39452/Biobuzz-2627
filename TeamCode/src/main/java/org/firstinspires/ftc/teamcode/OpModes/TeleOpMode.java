@@ -20,21 +20,23 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void loop() {
+        double targetTPS = 1250;
+
         // button presses
         double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
-        double driveTurn = gamepad1.right_stick_x; // left and right for turning
+        double driveTurn = gamepad1.right_stick_x * 0.75; // left and right for turning, x0.75 is to reduce sensitivity
         boolean intakeIsReversed = gamepad2.left_bumper;
         float intakeTrigger = gamepad2.left_trigger;
         float shooterIndexerKey = gamepad2.right_trigger;
-        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(1250);
+        double shooterTargetRPM = (double) shooterIndexerKey * Utils.calculateActualRPM(targetTPS);
         boolean shooterIndexerTurbo = gamepad2.right_bumper;
-        double indexerPower = -0.65;
+        double indexerPower = -1 ;
 
         boolean driveSetSpeed = gamepad1.dpad_up;
         boolean driveReverseSetSpeed = gamepad1.dpad_down;
         boolean reverseShooter = gamepad2.x;
         boolean reverseIndexer = gamepad2.a;
-        double turboTargetRPM = Utils.calculateActualRPM(1250);
+        double turboTargetRPM = Utils.calculateActualRPM(targetTPS);
 
         float driveBackwardTrigger = gamepad1.left_trigger;
         float driveForwardTrigger = gamepad1.right_trigger;

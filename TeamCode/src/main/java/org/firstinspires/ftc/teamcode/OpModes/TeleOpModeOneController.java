@@ -22,7 +22,7 @@ public class TeleOpModeOneController extends OpMode {
     public void loop() {
         // button presses
         double driveForward = -gamepad1.left_stick_y; // up and down for forwards and backwards
-        double driveTurn = gamepad1.right_stick_x; // left and right for turning
+        double driveTurn = gamepad1.right_stick_x * 0.75; // left and right for turning
         boolean intakeIsReversed = gamepad1.left_bumper; //gamepad1. L1 intake reverse
         float intakeTrigger = gamepad1.left_trigger; //gamepad1. L2 intake trigger
         float shooterIndexerKey = gamepad1.right_trigger; //gamepad1. R2 shooterindexer trigger

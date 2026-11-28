@@ -33,7 +33,7 @@ public class Intake {
 
         m_left.setPower(power);
         m_right.setPower(-power);
-        m_yellowjacket.setPower(power/2.5); // high gear ratio makes little motor revolving = HUGE intake spin
+        m_yellowjacket.setPower(power); // high gear ratio makes little motor revolving = HUGE intake spin
     }
 
     public void stopIntake() {
